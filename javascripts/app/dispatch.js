@@ -21,8 +21,9 @@
       this.latlng = new google.maps.LatLng(lat, lng);
       
       this.marker = new google.maps.Marker({
-        position: this.latlng
-      , title:    this.title  
+        position:  this.latlng
+      , title:     this.title 
+      , animation: google.maps.Animation.DROP
       });
       
   };
@@ -38,7 +39,6 @@
       , self = this;
     
     this.marker.setMap(map);
-    this.marker.setAnimation(google.maps.Animation.DROP);
     $list.prepend(this.listItemHTML());
     
     $thisListItem = $list.find(config.listItemSelector).eq(0);
