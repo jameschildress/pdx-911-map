@@ -5,13 +5,13 @@
 
 
   var config = App.config
-    , map
+    , map    = App.map
 
 
 
 
     , ajaxError = function(jqXHR, status, error) {
-        console.log(status + "  " + error);
+        console.log(status, error);
         // TODO: handle errors
       }
     
@@ -31,13 +31,14 @@
       }
       
     , start = function() {
+        map = new google.maps.Map(document.getElementById(config.mapDivID), config.mapOptions);
         getData();
         setInterval(getData, config.refreshRate);          
       }
       
     , renderDispatch = function() {
-        var dispatch  = new App.Dispatch(this);
-        dispatch.render(map);
+        var dispatch = new App.Dispatch(this);
+        dispatch.render();
       };
     
 
