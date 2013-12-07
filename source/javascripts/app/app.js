@@ -8,8 +8,8 @@
   
     config: {  
       dataURL:          'http://childr.es'
-    , refreshRate:      30000
-    , processRate:      200
+    , refreshRate:      60000
+    , processRate:      300
     , mapDivID:         'pdx911-map'
     , listSelector:     '#pdx911-list'
     , listItemSelector: '.pdx911-list-item'
