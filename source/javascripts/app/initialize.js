@@ -1,45 +1,51 @@
 (function(){
   'use strict';
 
-  $(function(){
-    
-    
-    
-    
-    var config = App.config
 
-      , latestDispatchAt = 0
 
-      , ajaxError = function(jqXHR, status, error){
-          console.log(status + "  " + error);
-        }
+
+  var config = App.config
+    , map
+
+
+
+
+    , ajaxError = function(jqXHR, status, error) {
+        console.log(status + "  " + error);
+        // TODO: handle errors
+      }
+    
+    , ajaxSuccess = function(data, status, jqXHR) {
+        $($.parseXML(data)).find('entry').each(renderDispatch);
+      }
       
-      , ajaxSuccess = function(data, status, jqXHR){
-          var $xml = $($.parseXML(data));
-          console.dir($xml.find('entry'));
-        }
+    , ajaxOptions = {
+        cache:    false
+      , dataType: 'jsonp'
+      , success:  ajaxSuccess
+      , error:    ajaxError
+      }
         
-      , ajaxOptions = {
-          cache:    false
-        , dataType: 'jsonp'
-        , success:  ajaxSuccess
-        , error:    ajaxError
-        }
-          
-      , getData = function(){
-          $.ajax(config.dataURL, ajaxOptions);
-        };
-    
-    
-    
-    
-    getData();
-    
-    // setInterval(getData, config.refreshRate);
-    
+    , getData = function() {
+        $.ajax(config.dataURL, ajaxOptions);
+      }
+      
+    , start = function() {
+        getData();
+        setInterval(getData, config.refreshRate);          
+      }
+      
+    , renderDispatch = function() {
+        var dispatch  = new App.Dispatch(this);
+        dispatch.render(map);
+      };
     
 
-    
-  });
+
+
+  $(start);
+
+
+
 
 }());
