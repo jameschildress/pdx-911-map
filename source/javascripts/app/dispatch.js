@@ -10,7 +10,7 @@
   App.Dispatch = function($xml, uid) {
     
     var title  = $xml.find('category').attr('label').toLowerCase()
-      , date   = Date.parse($xml.find('updated').text())
+      , date   = new Date($xml.find('updated').text())
       , georss = $xml.findNode('georss:point').text().split(" ")
       , lat    = parseFloat(georss[0], 10)
       , lng    = parseFloat(georss[1], 10);
@@ -67,7 +67,7 @@
       '"><h2>' + 
       this.title +
       '</h2><p>' +
-      this.date +
+      this.date.toLocaleTimeString(); +
       '</p></div>';
     return html;
   };
