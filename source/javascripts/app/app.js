@@ -14,6 +14,7 @@
     , listSelector:     '#pdx911-list'
     , listItemSelector: '.pdx911-list-item'
     , activeItemClass:  'current'
+    , mapActiveZoom:    14
     , mapOptions: {
         zoom:    12
       , minZoom: 11
@@ -22,9 +23,10 @@
       }
     }
     
-  , map:   {}
-  , uids:  []
-  , queue: []
+  , map:        {}
+  , uids:       []
+  , queue:      []
+  , dispatches: []
   
   };
 

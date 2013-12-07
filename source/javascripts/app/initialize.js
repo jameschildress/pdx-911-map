@@ -4,11 +4,11 @@
 
 
 
-  var config = App.config
-    , map    = App.map
-    , uids   = App.uids
-    , queue  = App.queue
-    
+  var config     = App.config
+    , map        = App.map
+    , uids       = App.uids
+    , queue      = App.queue
+    , dispatches = App.dispatches
     , $list
 
 
@@ -52,8 +52,9 @@
           $xml = $(queue.pop());
           uid = $xml.find('id').text();
           if (uids.indexOf(uid) < 0) {
-            uids.push(uid);
             dispatch = new App.Dispatch($xml, uid);
+            uids.push(uid);
+            dispatches.push(dispatch);
             dispatch.render(map, $list);
           }
         }

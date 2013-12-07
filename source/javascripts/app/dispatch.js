@@ -44,8 +44,14 @@
     $thisListItem = $list.find(config.listItemSelector).eq(0);
     
     highlightThisItem = function(){
+      var dispatches = App.dispatches
+        , i = dispatches.length;
       $list.find(config.listItemSelector).removeClass(config.activeItemClass);
-      $thisListItem.addClass(config.activeItemClass);      
+      $thisListItem.addClass(config.activeItemClass);
+      while (i--) {
+        dispatches[i].marker.setAnimation(null);
+      }
+      self.marker.setAnimation(google.maps.Animation.BOUNCE);
     }
     
     google.maps.event.addListener(this.marker, 'click', function() {
@@ -56,6 +62,7 @@
     $thisListItem.click(function(){
       highlightThisItem();
       map.setCenter(self.marker.position);
+      map.setZoom(config.mapActiveZoom);
       return false;
     });
     
