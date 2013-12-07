@@ -56,6 +56,7 @@
     
     google.maps.event.addListener(this.marker, 'click', function() {
       highlightThisItem();
+      $('html, body').scrollTop($thisListItem.offset().top);
       return false;
     });
     

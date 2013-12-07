@@ -15,8 +15,7 @@
 
 
     , ajaxError = function(jqXHR, status, error) {
-        console.log(status, error);
-        // TODO: handle errors
+        // TODO: handle ajax error
       }
     
     , ajaxSuccess = function(data, status, jqXHR) {
