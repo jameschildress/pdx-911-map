@@ -1,7 +1,8 @@
 (function(){
   'use strict';
   
-  var p;
+  var p
+    , config = App.config;
   
   
   
@@ -32,9 +33,20 @@
   p = App.Dispatch.prototype;
   
   p.render = function(map, $list) {
+    var $thisListItem;
+    
     this.marker.setMap(map);
     this.marker.setAnimation(google.maps.Animation.DROP);
     $list.prepend(this.listItemHTML());
+    
+    $thisListItem = $list.find(config.listItemSelector).eq(0);
+    
+    google.maps.event.addListener(this.marker, 'click', function() {
+      $list.find(config.listItemSelector).removeClass(config.activeItemClass);
+      $thisListItem.addClass(config.activeItemClass);
+      console.log('click');
+    });
+    
   };
   
   p.listItemHTML = function() {

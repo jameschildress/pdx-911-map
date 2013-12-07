@@ -7,11 +7,13 @@
   window.App = {
   
     config: {  
-      dataURL:      'http://childr.es'
-    , refreshRate:  30000
-    , processRate:  200
-    , mapDivID:     'pdx911-map'
-    , listSelector: '#pdx911-list'
+      dataURL:          'http://childr.es'
+    , refreshRate:      30000
+    , processRate:      200
+    , mapDivID:         'pdx911-map'
+    , listSelector:     '#pdx911-list'
+    , listItemSelector: '.pdx911-list-item'
+    , activeItemClass:  'current'
     , mapOptions: {
         zoom:    12
       , minZoom: 11
