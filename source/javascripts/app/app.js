@@ -9,6 +9,7 @@
     config: {  
       dataURL:      'http://childr.es'
     , refreshRate:  30000
+    , processRate:  200
     , mapDivID:     'pdx911-map'
     , mapOptions: {
         zoom:    12
@@ -18,9 +19,9 @@
       }
     }
     
-  , map:        {}
-  , uids:       []
-  , dispatches: []
+  , map:   {}
+  , uids:  []
+  , queue: []
   
   };
 

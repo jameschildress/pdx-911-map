@@ -32,6 +32,7 @@
   
   p.render = function(map) {
     this.marker.setMap(map);
+    this.marker.setAnimation(google.maps.Animation.DROP);
   }
   
   
