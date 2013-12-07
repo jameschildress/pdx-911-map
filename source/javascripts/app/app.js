@@ -7,7 +7,7 @@
   window.App = {
   
     config: {  
-      dataURL:      'http://www.portlandonline.com/scripts/911incidents.cfm'
+      dataURL:      'http://childr.es'
     , refreshRate:  30000
     , mapDivID:     'pdx911-map'
     }

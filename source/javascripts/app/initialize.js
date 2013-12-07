@@ -7,44 +7,38 @@
     
     
     var config = App.config
-      , functions = {}
+
       , latestDispatchAt = 0
+
+      , ajaxError = function(jqXHR, status, error){
+          console.log(status + "  " + error);
+        }
       
+      , ajaxSuccess = function(data, status, jqXHR){
+          var $xml = $($.parseXML(data));
+          console.dir($xml.find('entry'));
+        }
+        
       , ajaxOptions = {
           cache:    false
-        , dataType: 'xml'
-        , success:  functions.ajaxSuccess
-        , error:    functions.ajaxError
+        , dataType: 'jsonp'
+        , success:  ajaxSuccess
+        , error:    ajaxError
+        }
+          
+      , getData = function(){
+          $.ajax(config.dataURL, ajaxOptions);
         };
     
     
     
     
-    functions = {
-      
-      getData: function(){
-        $.ajax(config.dataURL, ajaxOptions);
-      }
-      
-    , ajaxError: function(jqXHR, status, error){
-        console.log(status + "  " + error);
-      }
-      
-    , ajaxSuccess: function(data, status, jqXHR){
-        console.log(data);
-      }
-      
-    };
+    getData();
+    
+    // setInterval(getData, config.refreshRate);
     
     
-    
-    
-    functions.getData();
-    
-    setInterval(functions.getData, config.refreshRate);
-    
-    
-    
+
     
   });
 
