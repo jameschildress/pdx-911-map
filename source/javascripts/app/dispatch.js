@@ -33,7 +33,9 @@
   p = App.Dispatch.prototype;
   
   p.render = function(map, $list) {
-    var $thisListItem;
+    var $thisListItem
+      , highlightThisItem
+      , self = this;
     
     this.marker.setMap(map);
     this.marker.setAnimation(google.maps.Animation.DROP);
@@ -41,10 +43,20 @@
     
     $thisListItem = $list.find(config.listItemSelector).eq(0);
     
-    google.maps.event.addListener(this.marker, 'click', function() {
+    highlightThisItem = function(){
       $list.find(config.listItemSelector).removeClass(config.activeItemClass);
-      $thisListItem.addClass(config.activeItemClass);
-      console.log('click');
+      $thisListItem.addClass(config.activeItemClass);      
+    }
+    
+    google.maps.event.addListener(this.marker, 'click', function() {
+      highlightThisItem();
+      return false;
+    });
+    
+    $thisListItem.click(function(){
+      highlightThisItem();
+      map.setCenter(self.marker.position);
+      return false;
     });
     
   };

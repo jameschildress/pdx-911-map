@@ -1,5 +1,5 @@
 $list-width: 250px;
-$list-bg: #f3f3f3;
+$list-bg: #f9f9f9;
 $list-item-padding: 10px;
 $list-item-border: #ccc;
 $map-border: #888;
@@ -29,7 +29,7 @@ body {
   top:    0;
   bottom: 0;
   background: #000;
-  border-left: 1px solid $list-item-border;
+  border-left: 1px solid $map-border;
 }
 
 #pdx911-map {
