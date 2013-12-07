@@ -7,6 +7,7 @@
   var config     = App.config
     , dispatches = App.dispatches
     , map        = App.map
+    , uids       = App.uids
 
 
 
@@ -38,7 +39,16 @@
       }
       
     , renderDispatch = function() {
-        dispatches.push(new App.Dispatch(this, map));
+        var $xml = $(this)
+          , uid = $xml.find('id').text()
+          , dispatch;
+        if (uids.indexOf(uid) < 0) {
+          uids.push(uid);
+          dispatch = new App.Dispatch($xml);
+          dispatches.push(dispatch);
+          dispatch.render(map);
+          console.log(dispatches.length, dispatch.title);
+        }
       };
     
 

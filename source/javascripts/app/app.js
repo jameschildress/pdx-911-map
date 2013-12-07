@@ -18,8 +18,8 @@
       }
     }
     
-  , map: {}
-  
+  , map:        {}
+  , uids:       []
   , dispatches: []
   
   };
