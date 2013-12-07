@@ -8,6 +8,8 @@
     , map    = App.map
     , uids   = App.uids
     , queue  = App.queue
+    
+    , $list
 
 
 
@@ -37,6 +39,7 @@
         getData();
         setInterval(getData, config.refreshRate);
         setInterval(processDispatchQueue, config.processRate);
+        $list = $(config.listSelector);
       }
       
     , addDispatchToQueue = function() {
@@ -50,9 +53,8 @@
           uid = $xml.find('id').text();
           if (uids.indexOf(uid) < 0) {
             uids.push(uid);
-            dispatch = new App.Dispatch($xml);
-            dispatch.render(map);
-            console.log(uids.length, dispatch.title);
+            dispatch = new App.Dispatch($xml, uid);
+            dispatch.render(map, $list);
           }
         }
       };

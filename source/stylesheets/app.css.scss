@@ -1,12 +1,57 @@
+$list-width: 250px;
+$list-bg: #f3f3f3;
+$list-item-padding: 10px;
+$list-item-border: #ccc;
+$map-border: #888;
+$heading-color: #666;
+
+
+
+
+* {
+  box-sizing: border-box;
+}
+body {
+  background: $list-bg;
+}
+
+
+
+
 #pdx911-map-wrapper {
   position: fixed;
-  left:   0;
+  left:   $list-width;
   right:  0;
   top:    0;
   bottom: 0;
   background: #000;
+  border-left: 1px solid $list-item-border;
 }
 
 #pdx911-map {
   height: 100%;
+}
+
+
+
+
+#pdx911-info {
+  width: $list-width;  
+}
+
+.pdx911-list-item {
+  border-bottom: 1px solid $list-item-border;
+  padding: $list-item-padding;
+  
+  h2 {
+    font-size: 14px;
+    text-transform: capitalize;
+    margin: 0 0 5px 0;
+    color: $heading-color;
+  }
+  
+  p {
+    margin: 0 0 0 $list-item-padding;
+    font-size: 12px;
+  }
 }
