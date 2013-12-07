@@ -49,7 +49,9 @@
       $list.find(config.listItemSelector).removeClass(config.activeItemClass);
       $thisListItem.addClass(config.activeItemClass);
       while (i--) {
-        dispatches[i].marker.setAnimation(null);
+        if (dispatches[i].marker.getAnimation() != null) {
+          dispatches[i].marker.setAnimation(null);
+        }
       }
       self.marker.setAnimation(google.maps.Animation.BOUNCE);
     }
