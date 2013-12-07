@@ -1,35 +1,32 @@
 (function(){
   'use strict';
   
-  var p;
   
   
   
-  
-  App.Dispatch = function(xml) {
+  App.Dispatch = function(xml, map) {
     
     var $xml   = $(xml)
       , id     = $xml.find('id').text()
       , title  = $xml.find('category').attr('label')
       , date   = Date.parse($xml.find('updated').text())
-      , georss = $xml.find('georss:point').text().split(" ")
+      , georss = $xml.findNode('georss:point').text().split(" ")
       , lat    = parseFloat(georss[0], 10)
       , lng    = parseFloat(georss[1], 10);
+      
+      console.log(georss);
       
       this.id     = id;
       this.title  = title;
       this.date   = date;
       this.latlng = new google.maps.LatLng(lat, lng);
       
-  };
-  
-  
-  
-  
-  p = App.Dispatch.prototype;
-  
-  p.render = function(map) {
-    
+      this.marker = new google.maps.Marker({
+        map:      map
+      , position: this.latlng
+      , title:    this.title  
+      });
+      
   };
   
   

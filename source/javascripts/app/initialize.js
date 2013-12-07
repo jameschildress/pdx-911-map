@@ -4,8 +4,9 @@
 
 
 
-  var config = App.config
-    , map    = App.map
+  var config     = App.config
+    , dispatches = App.dispatches
+    , map        = App.map
 
 
 
@@ -37,8 +38,7 @@
       }
       
     , renderDispatch = function() {
-        var dispatch = new App.Dispatch(this);
-        dispatch.render();
+        dispatches.push(new App.Dispatch(this, map));
       };
     
 
