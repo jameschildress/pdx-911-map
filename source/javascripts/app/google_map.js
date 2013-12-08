@@ -1,1 +1,0 @@
-google.maps.visualRefresh = true;

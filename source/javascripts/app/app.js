@@ -4,6 +4,12 @@
 
 
 
+  // Use the new Google Maps style.
+  google.maps.visualRefresh = true;
+
+
+
+
   window.App = {
   
     config: {  
@@ -23,10 +29,11 @@
       }
     }
     
-  , map:        {}
-  , uids:       []
-  , queue:      []
-  , dispatches: []
+  , map:        {}  // the Google Map object
+  , uids:       []  // an array of unique identifiers for each dispatch
+  , queue:      []  // a queue of unprocessed dispatch RSS entries
+  , dispatches: []  // an array of every dispatch rendered on the map
+  , markers:    []  // an array of map markers
   
   };
 
