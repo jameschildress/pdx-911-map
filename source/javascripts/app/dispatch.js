@@ -13,12 +13,14 @@
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
       , lat = parseFloat(geo[0], 10)
-      , lng = parseFloat(geo[1], 10);
+      , lng = parseFloat(geo[1], 10)
+      , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd');
       
       // Parse properties from the XML.
       this.uid     = uid;
       this.title   = $xml.find('category').attr('label').toLowerCase();
-      // this.address = 
+      this.address = $contentDDtags.eq(2).text();
+      this.agency  = $contentDDtags.eq(3).text();
       this.date    = new Date($xml.find('updated').text());
       this.latlng  = new google.maps.LatLng(lat, lng);
       
@@ -98,8 +100,10 @@
       '"><h2>' + 
       this.title +
       '</h2><p>' +
+      this.address +
+      '</p><time>' +
       this.date.toLocaleTimeString(); +
-      '</p></div>';
+      '</time></div>';
     return html;
   };
   
