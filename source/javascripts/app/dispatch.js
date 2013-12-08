@@ -29,6 +29,7 @@
         position:  this.latlng
       , title:     this.title 
       , animation: google.maps.Animation.DROP
+      , icon:      App.markerIcons[0]
       });
       
   };
