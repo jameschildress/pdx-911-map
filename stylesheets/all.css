@@ -437,17 +437,23 @@ body {
     color: #0077cc; }
   /* line 89, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item p {
-    margin: 0 0 0 10px;
-    font-size: 12px;
+    margin: 0 5px 0 10px;
+    font-size: 10px;
     color: #666666; }
   /* line 95, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  .pdx911-list-item time {
+    margin: 0 0 0 10px;
+    font-size: 12px;
+    color: #666666;
+    font-weight: bold; }
+  /* line 102, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.current {
     background: #0077cc; }
-    /* line 98, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 105, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     .pdx911-list-item.current h2 {
       color: white; }
-    /* line 102, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
-    .pdx911-list-item.current p {
+    /* line 109, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    .pdx911-list-item.current p, .pdx911-list-item.current time {
       color: white; }
 /*
 
