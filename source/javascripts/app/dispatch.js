@@ -49,6 +49,7 @@
     $list.prepend(this.listItemHTML());
     
     // Find the newly added list item
+    // TODO: can this be fetched from the previous prepend() call?
     $thisListItem = $list.find(config.listItemSelector).eq(0);
     
     // A function for highlighting this marker and list item.
