@@ -7,7 +7,7 @@
   window.App = {
   
     config: {  
-      dataURL:          'http://childr.es'
+      dataURL:          'http://pdx911.childr.es'
     , refreshRate:      60000
     , processRate:      300
     , mapDivID:         'pdx911-map'
