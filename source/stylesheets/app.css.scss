@@ -1,8 +1,9 @@
 $list-width: 250px;
-$list-bg: #f9f9f9;
+$list-bg: #fff;
 $list-item-padding: 10px;
 $list-item-border: #ccc;
 $map-border: #888;
+$title-color: #ccc;
 $heading-color: #07c;
 $text-color: #666;
 $active-item-color: $heading-color;
@@ -17,6 +18,7 @@ $active-text-color: #fff;
 }
 body {
   background: $list-bg;
+  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 }
 
 
@@ -40,26 +42,25 @@ body {
 
 
 #pdx911-header {
-  padding: $list-item-padding;
+  padding: 5px $list-item-padding $list-item-padding $list-item-padding;
   background: #666;
   
   h1 {
-    color: #fff;
-    font-size: 28px;
-    font-weight: normal;
-    margin: 0 0 5px 0;
+    color: $title-color;
+    font-size: 36px;
+    margin: 0;
   }
   
   p {
-    color: #eee;
+    color: $title-color;
     font-size: 12px;
     margin: 0;
   }
   
   a {
     text-decoration: none;
-    color: #cef;
-    border-bottom: 1px dotted #cef;
+    color: $title-color;
+    border-bottom: 1px dotted $title-color;
     
     &:hover {
       color: #fff;

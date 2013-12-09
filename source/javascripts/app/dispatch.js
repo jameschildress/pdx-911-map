@@ -29,7 +29,7 @@
         position:  this.latlng
       , title:     this.title 
       , animation: google.maps.Animation.DROP
-      , icon:      App.markerIcons[0]
+      , icon:      this.markerIcon()
       });
       
   };
@@ -94,6 +94,7 @@
   
   
   
+  
   // Return the HTML for this list item.
   p.listItemHTML = function() {
     var html = '<div class="pdx911-list-item" data-uid="' +
@@ -107,6 +108,30 @@
       '</time></div>';
     return html;
   };
+  
+  
+  
+  
+  // Return the icon that represents how long ago the dispatch occurred.
+  p.markerIcon = function() {
+    var icons    = App.markerIcons
+      , count    = icons.length
+      , i        = icons.length
+      , now      = new Date()
+      , timeSpan = config.timePerIconColor
+      , maxTime
+      , minTime
+      
+    while (i--) {
+      minTime = now - (i * timeSpan);
+      maxTime = now - ((i - 1) * timeSpan);
+      if (this.date > minTime && this.date < maxTime) {
+        return icons[count - 1 - i];
+      }
+    }
+    return icons[0];
+    
+  }
   
   
   

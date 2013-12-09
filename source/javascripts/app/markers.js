@@ -5,7 +5,9 @@
 
 
 
-  var m      = App.config.mapMarker
+  // Generate the array of map marker icons.
+
+  var m      = App.config.markerIcons
     , i      = m.spriteCount
     , size   = new google.maps.Size(m.width, m.height)
     , anchor = new google.maps.Point(0, m.width / 2)
@@ -15,7 +17,7 @@
       url:    m.imageURL
     , size:   size
     , anchor: anchor 
-    , origin: new google.maps.Point(((i-1) * m.width), 0)
+    , origin: new google.maps.Point((i * m.width), 0)
     });    
   }
   
