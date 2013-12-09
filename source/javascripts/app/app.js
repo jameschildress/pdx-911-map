@@ -25,7 +25,6 @@
     , listItemSelector: '.pdx911-list-item'
     , activeItemClass:  'current'
     
-    , mapActiveZoom: 14
     , mapOptions: {
         zoom:    12
       , minZoom: 11

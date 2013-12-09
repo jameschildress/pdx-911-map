@@ -25,6 +25,9 @@
     this.date    = new Date($xml.find('updated').text());
     this.latlng  = new google.maps.LatLng(lat, lng);
     
+    // Remember if this dispatch is highlighted on the list and map.
+    this.highlighted = false;
+    
     // Create and display the Google Map marker for this dispatch.
     this.marker = new google.maps.Marker({
       position:  this.latlng
@@ -34,24 +37,23 @@
     , map:       map
     });
         
-    // Create and prepend this list item to the HTML list.
-    this.$listItem = $(this.listItemHTML()).prependTo($list);
+    // Create and append this list item to the HTML list.
+    this.$listItem = $(this.listItemHTML()).appendTo($list);
     
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
-      self.highlight($list);
-      // Scroll to this item in the list.
-      $('html, body').scrollTop(self.$listItem.offset().top);
-      return false;
+      if (self.toggleHighlight()) {
+        // Scroll to this item in the list.
+        $('html, body').scrollTop(self.$listItem.offset().top);
+      }
     });
     
     // Rig the click event of the list item.
     this.$listItem.click(function(){
-      self.highlight($list);
-      // Center and zoom in on the map maker.
-      map.setCenter(self.marker.position);
-      map.setZoom(config.mapActiveZoom);
-      return false;
+      if (self.toggleHighlight()) {
+        // Center on the map maker.
+        map.setCenter(self.marker.position);
+      }
     });
     
   };
@@ -97,9 +99,6 @@
     return icons[0];
   }
   
-  
-  
-  
   // Update the icon for this marker.
   p.updateIcon = function() {
     this.marker.setIcon(this.markerIcon());
@@ -109,21 +108,42 @@
   
   
   // Highlight this dispatch on the list and map.
-  p.highlight = function($list){
+  p.highlight = function() {
+    // Unhighlist all other dispatches.
     var dispatches = App.dispatches
       , i = dispatches.length;
-    // Remove the highlight CSS class from all list items.
-    $list.find(config.listItemSelector).removeClass(config.activeItemClass);
-    // Add the highlight CSS class to this list item.
-    this.$listItem.addClass(config.activeItemClass);
-    // Remove the bounce animation from any bouncing map markers.
     while (i--) {
-      if (dispatches[i].marker.getAnimation() != null) {
-        dispatches[i].marker.setAnimation(null);
-      }
+      dispatches[i].unhighlight();
     }
+    // Add the active item class to this list item.
+    this.$listItem.addClass(config.activeItemClass);
     // Add the bounce animation to this map marker.
     this.marker.setAnimation(google.maps.Animation.BOUNCE);
+    this.highlighted = true;
+  }
+  
+  // Remove the highlighting of this dispatch on the list and map.
+  p.unhighlight = function() {
+    // Remove the active item class from this list item.
+    if (this.$listItem.hasClass(config.activeItemClass)) {
+      this.$listItem.removeClass(config.activeItemClass);
+    }
+    // Remove the bounce animation from this map marker.
+    if (this.marker.getAnimation() != null) {
+      this.marker.setAnimation(null);
+    }
+    this.highlighted = false;
+  }
+  
+  // Only highlight this dispatch if it is not currently highlighted.
+  // Return 'true' if this dispatch is highlighted.
+  p.toggleHighlight = function(){
+    if (this.highlighted) {
+      this.unhighlight();
+    } else {
+      this.highlight();
+    }
+    return this.highlighted;
   }
   
   
