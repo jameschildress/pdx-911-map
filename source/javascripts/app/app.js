@@ -39,7 +39,7 @@
       , spriteCount: 5
       , imageURL: './images/markers.png'
       }
-    , timePerIconColor: 1800000 // 30 minutes in milliseconds
+    , timePerIconColor: 1200000 // 20 minutes in milliseconds
       
     } // end of config
     
