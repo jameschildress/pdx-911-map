@@ -458,11 +458,11 @@ body {
 
 /* line 124, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-gradient {
-  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #dc4941), color-stop(100%, #efb62f));
-  background-image: -webkit-linear-gradient(left top, #dc4941, #efb62f);
-  background-image: -moz-linear-gradient(left top, #dc4941, #efb62f);
-  background-image: -o-linear-gradient(left top, #dc4941, #efb62f);
-  background-image: linear-gradient(left top, #dc4941, #efb62f);
+  background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #dc4941), color-stop(100%, #f1c355));
+  background-image: -webkit-linear-gradient(left top, #dc4941, #f1c355);
+  background-image: -moz-linear-gradient(left top, #dc4941, #f1c355);
+  background-image: -o-linear-gradient(left top, #dc4941, #f1c355);
+  background-image: linear-gradient(left top, #dc4941, #f1c355);
   overflow-y: auto; }
   /* line 128, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before {
