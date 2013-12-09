@@ -22,6 +22,7 @@ $font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
 * {
   box-sizing: border-box;
 }
+
 body {
   background: $list-bg;
   font-family: $font;
@@ -132,6 +133,9 @@ body {
 
 
 #pdx911-gradient {
+  background-image:  url('../images/gradient.png');
+  background-size:   100% 100%;
+  background-repeat: no-repeat;
   @include background-image(linear-gradient(left top, #dc4941, #f1c355));
   overflow-y: auto;
 
