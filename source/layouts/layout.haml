@@ -6,8 +6,15 @@
     %title PDX 911 Dispatches
   
     %meta{ charset: 'utf-8' }/
-    %meta{ content: "width=device-width, initial-scale=1.0, maximum-scale=1.0", name: :viewport }/
 
+    %meta{ name: 'description'         , content: 'A live map of 911 dispatches in the Portland area.' }/
+    %meta{ name: 'author'              , content: 'James Childress'                                    }/
+    
+    %meta{ name: 'og:title'            , content: 'PDX 911 Map'                                        }/
+    %meta{ name: 'og:description'      , content: 'A live map of 911 dispatches in the Portland area.' }/
+    %meta{ name: 'og:image'            , content: './images/og_image.png'                              }/
+    %meta{ name: 'contactdata:website' , content: 'https://github.com/jameschildress'                  }/
+    
     = stylesheet_link_tag :all
     
     = javascript_include_tag 'https://maps.googleapis.com/maps/api/js?sensor=false'
