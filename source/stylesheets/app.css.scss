@@ -1,3 +1,8 @@
+@import "compass";
+
+
+
+
 $list-width: 250px;
 $list-bg: #fff;
 $list-item-padding: 10px;
@@ -44,7 +49,6 @@ body {
 #pdx911-header {
   padding: 5px $list-item-padding $list-item-padding $list-item-padding;
   background: #eee;
-  border-bottom: 1px solid $list-item-border;
   
   h1 {
     color: #aaa;
@@ -112,4 +116,31 @@ body {
       color: $active-text-color;
     }
   }
+}
+
+
+
+
+#pdx911-gradient {
+  @include background-image(linear-gradient(left top, #dc4941, #efb62f));
+  overflow-y: auto;
+
+  &:before {
+    content: "newer";
+    float: left;
+    color: #fff;
+  }
+  
+  &:after {
+    content: "older";
+    float: right;
+    color: #333;
+  }
+  
+  &:before, &:after {
+    text-transform: uppercase;
+    font-size: 11px;
+    padding: 5px $list-item-padding;
+  }
+  
 }
