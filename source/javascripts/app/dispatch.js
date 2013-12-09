@@ -99,9 +99,11 @@
     return icons[0];
   }
   
-  // Update the icon for this marker.
+  // Update the icon for this marker, UNLESS the marker is highlighted.
   p.updateIcon = function() {
-    this.marker.setIcon(this.markerIcon());
+    if (!this.highlighted) {
+      this.marker.setIcon(this.markerIcon());
+    }
   }
   
   
@@ -117,8 +119,8 @@
     }
     // Add the active item class to this list item.
     this.$listItem.addClass(config.activeItemClass);
-    // Add the bounce animation to this map marker.
-    this.marker.setAnimation(google.maps.Animation.BOUNCE);
+    // Change the marker icon to the highlight color.
+    this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
   }
   
@@ -128,10 +130,8 @@
     if (this.$listItem.hasClass(config.activeItemClass)) {
       this.$listItem.removeClass(config.activeItemClass);
     }
-    // Remove the bounce animation from this map marker.
-    if (this.marker.getAnimation() != null) {
-      this.marker.setAnimation(null);
-    }
+    // Return the marker icon to its original color.
+    this.marker.setIcon(this.markerIcon());
     this.highlighted = false;
   }
   

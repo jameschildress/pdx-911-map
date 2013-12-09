@@ -68,7 +68,8 @@ body {
     border-bottom: 1px dotted $title-color;
     
     &:hover {
-      color: #fff;
+      color: $heading-color;
+      border-color: $heading-color;
     }
   }
 }
