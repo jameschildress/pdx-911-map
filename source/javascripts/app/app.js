@@ -24,6 +24,7 @@
     , listSelector:     '#pdx911-list'
     , listItemSelector: '.pdx911-list-item'
     , activeItemClass:  'current'
+    , hiddenItemClass:  'hidden'
     
     , mapOptions: {
         zoom:    12

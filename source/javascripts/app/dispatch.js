@@ -98,14 +98,14 @@
       }
     }
     return icons[0];
-  }
+  };
   
   // Update the icon for this marker, UNLESS the marker is highlighted.
   p.updateIcon = function() {
     if (!this.highlighted) {
       this.marker.setIcon(this.markerIcon());
     }
-  }
+  };
   
   
   
@@ -123,7 +123,7 @@
     // Change the marker icon to the highlight color.
     this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
-  }
+  };
   
   // Remove the highlighting of this dispatch on the list and map.
   p.unhighlight = function() {
@@ -136,18 +136,41 @@
       App.infoWindow.close();
     }
     this.highlighted = false;
-  }
+  };
   
   // Only highlight this dispatch if it is not currently highlighted.
   // Return 'true' if this dispatch is highlighted.
-  p.toggleHighlight = function(){
+  p.toggleHighlight = function() {
     if (this.highlighted) {
       this.unhighlight();
     } else {
       this.highlight();
     }
     return this.highlighted;
-  }
+  };
+  
+  
+  
+  
+  // Hide this item from the list and map.
+  p.hide = function() {
+    if (this.marker.getVisible()) {
+      this.marker.setVisible(false);
+    }
+    if (!this.$listItem.hasClass(config.hiddenItemClass)) {
+      this.marker.addClass(config.hiddenItemClass);
+    }
+  };
+  
+  // Unhide this item from the list and map.
+  p.unhide = function() {
+    if (!this.marker.getVisible()) {
+      this.marker.setVisible(true);
+    }
+    if (this.$listItem.hasClass(config.hiddenItemClass)) {
+      this.marker.removeClass(config.hiddenItemClass);
+    }
+  };
   
   
   
