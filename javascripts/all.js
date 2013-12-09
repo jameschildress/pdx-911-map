@@ -273,8 +273,9 @@ Encoder = {
     config: {  
       
       dataURL:     'http://pdx911.childr.es'
-    , refreshRate: 60000
-    , processRate: 300
+    , refreshRate:    60000
+    , processRate:    300
+    , iconUpdateRate: 100000
     
     , mapDivID:         'pdx911-map'
     , listSelector:     '#pdx911-list'
@@ -466,16 +467,22 @@ Encoder = {
       , timeSpan = config.timePerIconColor
       , maxTime
       , minTime
-      
     while (i--) {
       minTime = now - (i * timeSpan);
       maxTime = now - ((i - 1) * timeSpan);
       if (this.date > minTime && this.date < maxTime) {
-        return icons[count - 1 - i];
+        return icons[count - i];
       }
     }
     return icons[0];
-    
+  }
+  
+  
+  
+  
+  // Update the icon for this marker.
+  p.updateIcon = function() {
+    this.marker.setIcon(this.markerIcon());
   }
   
   
@@ -530,6 +537,8 @@ Encoder = {
         setInterval(getData, config.refreshRate);
         // Process the queue on an interval
         setInterval(processDispatchQueue, config.processRate);
+        // Update marker icon colors on interval
+        setInterval(updateMarkerIcons, config.iconUpdateRate);        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
       }
@@ -557,6 +566,14 @@ Encoder = {
             dispatches.push(dispatch);
             dispatch.render(map, $list);
           }
+        }
+      }
+      
+      // Update the icon of every marker on the map.
+    , updateMarkerIcons = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].updateIcon();
         }
       };
     

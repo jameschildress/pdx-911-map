@@ -16,8 +16,9 @@
     config: {  
       
       dataURL:     'http://pdx911.childr.es'
-    , refreshRate: 60000
-    , processRate: 300
+    , refreshRate:    60000
+    , processRate:    300
+    , iconUpdateRate: 100000
     
     , mapDivID:         'pdx911-map'
     , listSelector:     '#pdx911-list'

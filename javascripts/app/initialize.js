@@ -46,6 +46,8 @@
         setInterval(getData, config.refreshRate);
         // Process the queue on an interval
         setInterval(processDispatchQueue, config.processRate);
+        // Update marker icon colors on interval
+        setInterval(updateMarkerIcons, config.iconUpdateRate);        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
       }
@@ -73,6 +75,14 @@
             dispatches.push(dispatch);
             dispatch.render(map, $list);
           }
+        }
+      }
+      
+      // Update the icon of every marker on the map.
+    , updateMarkerIcons = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].updateIcon();
         }
       };
     
