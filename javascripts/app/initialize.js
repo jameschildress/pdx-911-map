@@ -5,10 +5,10 @@
 
 
   var config     = App.config
-    , map        = App.map
     , uids       = App.uids
     , queue      = App.queue
     , dispatches = App.dispatches
+    , map
     , $list
 
 
@@ -70,10 +70,9 @@
           // - Create and render a new Dispatch
           // - Add the new dispatch to the dispatches array.
           if (uids.indexOf(uid) < 0) {
-            dispatch = new App.Dispatch($xml, uid);
             uids.push(uid);
+            dispatch = new App.Dispatch($xml, uid, map, $list);
             dispatches.push(dispatch);
-            dispatch.render(map, $list);
           }
         }
       }

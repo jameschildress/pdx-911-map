@@ -8,89 +8,61 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid) {
+  App.Dispatch = function($xml, uid, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
       , lat = parseFloat(geo[0], 10)
       , lng = parseFloat(geo[1], 10)
-      , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd');
+      , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd')
+      , self = this;
       
-      // Parse properties from the XML.
-      this.uid     = uid;
-      this.title   = $xml.find('category').attr('label').toLowerCase();
-      this.address = $contentDDtags.eq(2).text();
-      this.agency  = $contentDDtags.eq(3).text();
-      this.date    = new Date($xml.find('updated').text());
-      this.latlng  = new google.maps.LatLng(lat, lng);
-      
-      // Create, but don't display, the Google Map marker for this dispatch.
-      this.marker = new google.maps.Marker({
-        position:  this.latlng
-      , title:     this.title 
-      , animation: google.maps.Animation.DROP
-      , icon:      this.markerIcon()
-      });
-      
+    // Parse properties from the XML.
+    this.uid     = uid;
+    this.title   = $xml.find('category').attr('label').toLowerCase();
+    this.address = $contentDDtags.eq(2).text();
+    this.agency  = $contentDDtags.eq(3).text();
+    this.date    = new Date($xml.find('updated').text());
+    this.latlng  = new google.maps.LatLng(lat, lng);
+    
+    // Remember if this dispatch is highlighted on the list and map.
+    this.highlighted = false;
+    
+    // Create and display the Google Map marker for this dispatch.
+    this.marker = new google.maps.Marker({
+      position:  this.latlng
+    , title:     this.title 
+    , animation: google.maps.Animation.DROP
+    , icon:      this.markerIcon()
+    , map:       map
+    });
+        
+    // Create and append this list item to the HTML list.
+    this.$listItem = $(this.listItemHTML()).appendTo($list);
+    
+    // Rig the click event of the map marker.
+    google.maps.event.addListener(this.marker, 'click', function() {
+      if (self.toggleHighlight()) {
+        // Scroll to this item in the list.
+        $('html, body').scrollTop(self.$listItem.offset().top);
+      }
+    });
+    
+    // Rig the click event of the list item.
+    this.$listItem.click(function(){
+      if (self.toggleHighlight()) {
+        // Center on the map maker.
+        map.setCenter(self.marker.position);
+      }
+    });
+    
   };
   
   
   
   
   p = App.Dispatch.prototype;
-  
-  // Display and rig events for the map marker and list item for this dispatch.
-  p.render = function(map, $list) {
-    var $thisListItem
-      , highlightThisItem
-      , self = this;
     
-    // Show the map marker.
-    this.marker.setMap(map);
-    
-    // Add this list item to the top of the HTML list.
-    $thisListItem = $(this.listItemHTML()).prependTo($list);
-    
-    // A function for highlighting this marker and list item.
-    highlightThisItem = function(){
-      var dispatches = App.dispatches
-        , i = dispatches.length;
-      // Remove the highlight CSS class from all list items.
-      $list.find(config.listItemSelector).removeClass(config.activeItemClass);
-      // Add the highlight CSS class to this list item.
-      $thisListItem.addClass(config.activeItemClass);
-      // Remove the bounce animation from any bouncing map markers.
-      while (i--) {
-        if (dispatches[i].marker.getAnimation() != null) {
-          dispatches[i].marker.setAnimation(null);
-        }
-      }
-      // Add the bounce animation to this map marker.
-      self.marker.setAnimation(google.maps.Animation.BOUNCE);
-    }
-    
-    // Rig the click event of the map marker.
-    google.maps.event.addListener(this.marker, 'click', function() {
-      highlightThisItem();
-      // Scroll to this item in the list.
-      $('html, body').scrollTop($thisListItem.offset().top);
-      return false;
-    });
-    
-    // Rig the click event of the list item.
-    $thisListItem.click(function(){
-      highlightThisItem();
-      // Center and zoom in on the map maker.
-      map.setCenter(self.marker.position);
-      map.setZoom(config.mapActiveZoom);
-      return false;
-    });
-    
-  };
-  
-  
-  
-  
   // Return the HTML for this list item.
   p.listItemHTML = function() {
     var html = '<div class="pdx911-list-item" data-uid="' +
@@ -127,12 +99,51 @@
     return icons[0];
   }
   
-  
-  
-  
-  // Update the icon for this marker.
+  // Update the icon for this marker, UNLESS the marker is highlighted.
   p.updateIcon = function() {
+    if (!this.highlighted) {
+      this.marker.setIcon(this.markerIcon());
+    }
+  }
+  
+  
+  
+  
+  // Highlight this dispatch on the list and map.
+  p.highlight = function() {
+    // Unhighlist all other dispatches.
+    var dispatches = App.dispatches
+      , i = dispatches.length;
+    while (i--) {
+      dispatches[i].unhighlight();
+    }
+    // Add the active item class to this list item.
+    this.$listItem.addClass(config.activeItemClass);
+    // Change the marker icon to the highlight color.
+    this.marker.setIcon(App.highlightIcon);
+    this.highlighted = true;
+  }
+  
+  // Remove the highlighting of this dispatch on the list and map.
+  p.unhighlight = function() {
+    // Remove the active item class from this list item.
+    if (this.$listItem.hasClass(config.activeItemClass)) {
+      this.$listItem.removeClass(config.activeItemClass);
+    }
+    // Return the marker icon to its original color.
     this.marker.setIcon(this.markerIcon());
+    this.highlighted = false;
+  }
+  
+  // Only highlight this dispatch if it is not currently highlighted.
+  // Return 'true' if this dispatch is highlighted.
+  p.toggleHighlight = function(){
+    if (this.highlighted) {
+      this.unhighlight();
+    } else {
+      this.highlight();
+    }
+    return this.highlighted;
   }
   
   

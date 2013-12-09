@@ -25,7 +25,6 @@
     , listItemSelector: '.pdx911-list-item'
     , activeItemClass:  'current'
     
-    , mapActiveZoom: 14
     , mapOptions: {
         zoom:    12
       , minZoom: 11
@@ -46,8 +45,7 @@
     
     
     
-    // Objects used throughout the app.
-  , map:         {}  // the Google Map object
+    // Arrays used throughout the app.
   , uids:        []  // an array of unique identifiers for each dispatch
   , queue:       []  // a queue of unprocessed dispatch RSS entries
   , dispatches:  []  // an array of every dispatch rendered on the map
