@@ -121,16 +121,22 @@
       , timeSpan = config.timePerIconColor
       , maxTime
       , minTime
-      
     while (i--) {
       minTime = now - (i * timeSpan);
       maxTime = now - ((i - 1) * timeSpan);
       if (this.date > minTime && this.date < maxTime) {
-        return icons[count - 1 - i];
+        return icons[count - i];
       }
     }
     return icons[0];
-    
+  }
+  
+  
+  
+  
+  // Update the icon for this marker.
+  p.updateIcon = function() {
+    this.marker.setIcon(this.markerIcon());
   }
   
   
