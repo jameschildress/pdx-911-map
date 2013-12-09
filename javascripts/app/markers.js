@@ -10,7 +10,7 @@
   var m      = App.config.markerIcons
     , i      = m.spriteCount
     , size   = new google.maps.Size(m.width, m.height)
-    , anchor = new google.maps.Point(0, m.width / 2)
+    , anchor = new google.maps.Point(m.width / 2, m.height)
   
   while (i--) {
     App.markerIcons.push({
