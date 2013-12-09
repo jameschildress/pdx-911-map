@@ -10,10 +10,17 @@
       %a{ href: 'https://github.com/jameschildress' } James Childress
       %span> .
 
-
-
-
   #pdx911-gradient
+
+
+
+  
+  #pdx911-filters
+    
+    %select#pdx911-recent-filter
+      %option{ value: 0 } Show all dispatches...
+      %option{ value: 3600000 } Within the last hour.
+      %option{ value: 7200000 } In the last two hours.
 
 
 

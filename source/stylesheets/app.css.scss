@@ -15,6 +15,7 @@ $active-item-color: $heading-color;
 $active-heading-color: #fff;
 $active-text-color: #fff;
 $font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$header-bg: #eee;
 
 
 
@@ -50,7 +51,7 @@ body {
 
 #pdx911-header {
   padding: 5px $list-item-padding $list-item-padding $list-item-padding;
-  background: #eee;
+  background: $header-bg;
   
   h1 {
     color: $title-color;
@@ -157,4 +158,17 @@ body {
     padding: 5px $list-item-padding;
   }
   
+}
+
+
+
+
+#pdx911-filters {
+  padding: $list-item-padding;
+  border-bottom: 1px solid $list-item-border;
+  background: $header-bg;
+  
+  select {
+    width: 100%;
+  }
 }
