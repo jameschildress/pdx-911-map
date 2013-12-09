@@ -308,6 +308,9 @@ Encoder = {
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons
   
+    // Single infoWindow used for all map markers.
+  , infoWindow: new google.maps.InfoWindow()
+  
   };
 
 
@@ -394,8 +397,9 @@ Encoder = {
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
-        // Scroll to this item in the list.
-        $('html, body').scrollTop(self.$listItem.offset().top);
+        // Display the infoWindow.
+        App.infoWindow.setContent(self.listItemHTML());
+        App.infoWindow.open(self.marker.getMap(), self.marker);
       }
     });
     
@@ -462,9 +466,9 @@ Encoder = {
   
   // Highlight this dispatch on the list and map.
   p.highlight = function() {
-    // Unhighlist all other dispatches.
     var dispatches = App.dispatches
       , i = dispatches.length;
+    // Unhighlist all other dispatches.
     while (i--) {
       dispatches[i].unhighlight();
     }
@@ -477,12 +481,14 @@ Encoder = {
   
   // Remove the highlighting of this dispatch on the list and map.
   p.unhighlight = function() {
-    // Remove the active item class from this list item.
-    if (this.$listItem.hasClass(config.activeItemClass)) {
+    if (this.highlighted) {
+      // Remove the active item class from this list item.
       this.$listItem.removeClass(config.activeItemClass);
+      // Return the marker icon to its original color.
+      this.marker.setIcon(this.markerIcon());
+      // Close the infoWindow.
+      App.infoWindow.close();
     }
-    // Return the marker icon to its original color.
-    this.marker.setIcon(this.markerIcon());
     this.highlighted = false;
   }
   

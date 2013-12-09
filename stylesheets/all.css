@@ -374,16 +374,16 @@ table {
     border-collapse: collapse;
     border-spacing: 0;
 }
-/* line 21, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 22, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 * {
   box-sizing: border-box; }
 
-/* line 24, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 25, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 body {
   background: white;
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-/* line 32, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 33, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map-wrapper {
   position: fixed;
   left: 250px;
@@ -393,71 +393,77 @@ body {
   background: #000;
   border-left: 1px solid #888888; }
 
-/* line 42, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 43, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map {
   height: 100%; }
 
-/* line 49, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 50, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-header {
   padding: 5px 10px 10px 10px;
   background: #eee; }
-  /* line 53, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 54, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header h1 {
     color: #777777;
     font-size: 36px;
     margin: 0; }
-  /* line 59, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 60, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header p {
     color: #777777;
     font-size: 12px;
     margin: 0; }
-  /* line 65, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 66, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header a {
     text-decoration: none;
     color: #777777;
     border-bottom: 1px dotted #777777; }
-    /* line 70, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 71, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-header a:hover {
       color: #0077cc;
       border-color: #0077cc; }
 
-/* line 80, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 81, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-info {
   width: 250px; }
+  /* line 84, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  #pdx911-info .pdx911-list-item {
+    border-bottom: 1px solid #cccccc;
+    padding: 10px; }
+    /* line 88, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    #pdx911-info .pdx911-list-item p, #pdx911-info .pdx911-list-item time {
+      margin-left: 10px; }
 
-/* line 84, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 94, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 .pdx911-list-item {
-  border-bottom: 1px solid #cccccc;
-  padding: 10px;
-  cursor: pointer; }
-  /* line 89, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  cursor: pointer;
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif !important; }
+  /* line 98, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item h2 {
     font-size: 14px;
     text-transform: capitalize;
     margin: 0 0 5px 0;
     color: #0077cc; }
-  /* line 96, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 105, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item p {
-    margin: 0 5px 0 10px;
+    margin: 0 5px 0 0;
     font-size: 10px;
     color: #666666; }
-  /* line 102, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 111, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item time {
-    margin: 0 0 0 10px;
+    margin: 0;
     font-size: 12px;
     color: #666666;
     font-weight: bold; }
-  /* line 109, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 118, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.current {
     background: #0077cc; }
-    /* line 112, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 121, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     .pdx911-list-item.current h2 {
       color: white; }
-    /* line 116, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 125, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     .pdx911-list-item.current p, .pdx911-list-item.current time {
       color: white; }
 
-/* line 125, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 134, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-gradient {
   background-image: -webkit-gradient(linear, 0% 0%, 100% 100%, color-stop(0%, #dc4941), color-stop(100%, #f1c355));
   background-image: -webkit-linear-gradient(left top, #dc4941, #f1c355);
@@ -465,17 +471,17 @@ body {
   background-image: -o-linear-gradient(left top, #dc4941, #f1c355);
   background-image: linear-gradient(left top, #dc4941, #f1c355);
   overflow-y: auto; }
-  /* line 129, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 138, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before {
     content: "newer";
     float: left;
     color: #fff; }
-  /* line 135, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 144, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:after {
     content: "older";
     float: right;
     color: #333; }
-  /* line 141, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 150, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before, #pdx911-gradient:after {
     text-transform: uppercase;
     font-size: 11px;
