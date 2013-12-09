@@ -3,7 +3,7 @@ $list-bg: #fff;
 $list-item-padding: 10px;
 $list-item-border: #ccc;
 $map-border: #888;
-$title-color: #ccc;
+$title-color: #777;
 $heading-color: #07c;
 $text-color: #666;
 $active-item-color: $heading-color;
@@ -43,10 +43,11 @@ body {
 
 #pdx911-header {
   padding: 5px $list-item-padding $list-item-padding $list-item-padding;
-  background: #666;
+  background: #eee;
+  border-bottom: 1px solid $list-item-border;
   
   h1 {
-    color: $title-color;
+    color: #aaa;
     font-size: 36px;
     margin: 0;
   }
