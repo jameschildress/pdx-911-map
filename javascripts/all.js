@@ -395,11 +395,7 @@ Encoder = {
     this.marker.setMap(map);
     
     // Add this list item to the top of the HTML list.
-    $list.prepend(this.listItemHTML());
-    
-    // Find the newly added list item
-    // TODO: can this be fetched from the previous prepend() call?
-    $thisListItem = $list.find(config.listItemSelector).eq(0);
+    $thisListItem = $(this.listItemHTML()).prependTo($list);
     
     // A function for highlighting this marker and list item.
     highlightThisItem = function(){
@@ -450,7 +446,7 @@ Encoder = {
       '</h2><p>' +
       this.address +
       '</p><time>' +
-      this.date.toLocaleTimeString(); +
+      this.date.toLocaleTimeString() +
       '</time></div>';
     return html;
   };
