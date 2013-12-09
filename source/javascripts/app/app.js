@@ -51,6 +51,9 @@
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons
   
+    // Single infoWindow used for all map markers.
+  , infoWindow: new google.maps.InfoWindow()
+  
   };
 
 
