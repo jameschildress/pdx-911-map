@@ -122,7 +122,7 @@ body {
 
 
 #pdx911-gradient {
-  @include background-image(linear-gradient(left top, #dc4941, #efb62f));
+  @include background-image(linear-gradient(left top, #dc4941, #f1c355));
   overflow-y: auto;
 
   &:before {

@@ -36,7 +36,7 @@
         height: 35
       , width:  22
       , spriteCount: 5
-      , imageURL: '../images/markers.png'
+      , imageURL: './images/markers.png'
       }
     , timePerIconColor: 1800000 // 30 minutes in milliseconds
       
