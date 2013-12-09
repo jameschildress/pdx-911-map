@@ -57,7 +57,7 @@
         // Get the DOM node for the select tag of the recentness filter.
         $ageFilter = $(config.ageFilterSelector);
         // Filter dispatches whenever the filter value changes.
-        $ageFilter.change(updateFilters)
+        $ageFilter.change(updateFilters).change();
       }
       
       // Add an unprocessed dispatch RSS entry to the queue.
