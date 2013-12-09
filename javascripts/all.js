@@ -266,31 +266,48 @@ Encoder = {
 
 
 
-
+  
+  // App namespace and configuration.
   window.App = {
   
     config: {  
-      dataURL:          'http://pdx911.childr.es'
-    , refreshRate:      60000
-    , processRate:      300
+      
+      dataURL:     'http://pdx911.childr.es'
+    , refreshRate: 60000
+    , processRate: 300
+    
     , mapDivID:         'pdx911-map'
     , listSelector:     '#pdx911-list'
     , listItemSelector: '.pdx911-list-item'
     , activeItemClass:  'current'
-    , mapActiveZoom:    14
+    
+    , mapActiveZoom: 14
     , mapOptions: {
         zoom:    12
       , minZoom: 11
       , center: new google.maps.LatLng(45.5278, -122.5702)
       , streetViewControl: false
       }
-    }
     
-  , map:        {}  // the Google Map object
-  , uids:       []  // an array of unique identifiers for each dispatch
-  , queue:      []  // a queue of unprocessed dispatch RSS entries
-  , dispatches: []  // an array of every dispatch rendered on the map
-  , markers:    []  // an array of map markers
+    , markerIcons: {
+        height: 35
+      , width:  22
+      , spriteCount: 5
+      , imageURL: '../images/markers.png'
+      }
+    , timePerIconColor: 1800000 // 30 minutes in milliseconds
+      
+    } // end of config
+    
+    
+    
+    
+    // Objects used throughout the app.
+  , map:         {}  // the Google Map object
+  , uids:        []  // an array of unique identifiers for each dispatch
+  , queue:       []  // a queue of unprocessed dispatch RSS entries
+  , dispatches:  []  // an array of every dispatch rendered on the map
+  , markerIcons: []  // an array of map marker icons
   
   };
 
@@ -304,14 +321,23 @@ Encoder = {
 
 
 
-  var imageHeight = 35
-    , imageWidth  = 110
-    , markerWidth = 22
-    , imageURL    = '../images/markers.png'
-    , i = 0;
-    
-  
 
+  // Generate the array of map marker icons.
+
+  var m      = App.config.markerIcons
+    , i      = m.spriteCount
+    , size   = new google.maps.Size(m.width, m.height)
+    , anchor = new google.maps.Point(0, m.width / 2)
+  
+  while (i--) {
+    App.markerIcons.push({
+      url:    m.imageURL
+    , size:   size
+    , anchor: anchor 
+    , origin: new google.maps.Point((i * m.width), 0)
+    });    
+  }
+  
 
 
 
@@ -348,6 +374,7 @@ Encoder = {
         position:  this.latlng
       , title:     this.title 
       , animation: google.maps.Animation.DROP
+      , icon:      this.markerIcon()
       });
       
   };
@@ -412,6 +439,7 @@ Encoder = {
   
   
   
+  
   // Return the HTML for this list item.
   p.listItemHTML = function() {
     var html = '<div class="pdx911-list-item" data-uid="' +
@@ -425,6 +453,30 @@ Encoder = {
       '</time></div>';
     return html;
   };
+  
+  
+  
+  
+  // Return the icon that represents how long ago the dispatch occurred.
+  p.markerIcon = function() {
+    var icons    = App.markerIcons
+      , count    = icons.length
+      , i        = icons.length
+      , now      = new Date()
+      , timeSpan = config.timePerIconColor
+      , maxTime
+      , minTime
+      
+    while (i--) {
+      minTime = now - (i * timeSpan);
+      maxTime = now - ((i - 1) * timeSpan);
+      if (this.date > minTime && this.date < maxTime) {
+        return icons[count - 1 - i];
+      }
+    }
+    return icons[0];
+    
+  }
   
   
   

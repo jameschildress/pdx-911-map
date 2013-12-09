@@ -4,14 +4,23 @@
 
 
 
-  var imageHeight = 35
-    , imageWidth  = 110
-    , markerWidth = 22
-    , imageURL    = '../images/markers.png'
-    , i = 0;
-    
-  
 
+  // Generate the array of map marker icons.
+
+  var m      = App.config.markerIcons
+    , i      = m.spriteCount
+    , size   = new google.maps.Size(m.width, m.height)
+    , anchor = new google.maps.Point(0, m.width / 2)
+  
+  while (i--) {
+    App.markerIcons.push({
+      url:    m.imageURL
+    , size:   size
+    , anchor: anchor 
+    , origin: new google.maps.Point((i * m.width), 0)
+    });    
+  }
+  
 
 
 
