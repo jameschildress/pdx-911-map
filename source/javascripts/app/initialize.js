@@ -8,8 +8,10 @@
     , uids       = App.uids
     , queue      = App.queue
     , dispatches = App.dispatches
+    , filters    = App.filters
     , map
     , $list
+    , $ageFilter
 
 
 
@@ -44,12 +46,18 @@
         // Fetch the RSS now and on an interval.
         getData();
         setInterval(getData, config.refreshRate);
-        // Process the queue on an interval
+        // Process the queue on an interval.
         setInterval(processDispatchQueue, config.processRate);
-        // Update marker icon colors on interval
+        // Update marker icon colors on interval.
         setInterval(updateMarkerIcons, config.iconUpdateRate);        
+        // Filter the displayed dispatches on interval.
+        setInterval(filterDispatches, config.filterRate);        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
+        // Get the DOM node for the select tag of the recentness filter.
+        $ageFilter = $(config.ageFilterSelector);
+        // Filter dispatches whenever the filter value changes.
+        $ageFilter.change(updateFilters)
       }
       
       // Add an unprocessed dispatch RSS entry to the queue.
@@ -83,6 +91,20 @@
         while (i--) {
           dispatches[i].updateIcon();
         }
+      }
+      
+      // Update the app filter values, then filter all dispatches.
+    , updateFilters = function() {
+        filters.age = parseInt($ageFilter.val(), 10);
+        filterDispatches();
+      }
+      
+      // Filter all dispatches.
+    , filterDispatches = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].filter();
+        }        
       };
     
 

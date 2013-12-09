@@ -57,6 +57,9 @@
       }
     });
     
+    // Hide or show this dispatch based on filter values.
+    this.filter();
+    
   };
   
   
@@ -158,7 +161,7 @@
       this.marker.setVisible(false);
     }
     if (!this.$listItem.hasClass(config.hiddenItemClass)) {
-      this.marker.addClass(config.hiddenItemClass);
+      this.$listItem.addClass(config.hiddenItemClass);
     }
   };
   
@@ -168,9 +171,24 @@
       this.marker.setVisible(true);
     }
     if (this.$listItem.hasClass(config.hiddenItemClass)) {
-      this.marker.removeClass(config.hiddenItemClass);
+      this.$listItem.removeClass(config.hiddenItemClass);
     }
   };
+  
+  
+  
+  
+  // Determine whether to show or hide this dispatch, based on filter values.
+  // Unhighlight any dispatches that are to be hidden.
+  p.filter = function() {
+    var age = App.filters.age;
+    if (age && this.date < (new Date()) - age) {
+      this.unhighlight();
+      this.hide();
+    } else {
+      this.unhide();
+    }
+  }
   
   
   
