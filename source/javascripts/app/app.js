@@ -58,9 +58,11 @@
   , infoWindow: new google.maps.InfoWindow()
   
     // Filters used to determine which dispatches are displayed.
+    // TODO: filter by category and agency
   , filters: {
       age:      0
     , category: ""
+    , agency:   ""
     }
   
   };
