@@ -45,7 +45,7 @@
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
         // Display the infoWindow.
-        App.infoWindow.setContent(self.listItemHTML());
+        // NOTE: infoWindow text is updated when updateTimeAgo() is called when highlighting.
         App.infoWindow.open(self.marker.getMap(), self.marker);
       }
     });
@@ -202,9 +202,12 @@
   
   
   
-  // Update the time-ago description for this list item.
+  // Update the time-ago description for this list item and infoWindow.
   p.updateTimeAgo = function() {
     this.$timeAgo.text(App.timeAgoInWords(this.date));
+    if (this.highlighted) {
+      App.infoWindow.setContent(this.listItemHTML());
+    }
   }
   
   
