@@ -275,12 +275,15 @@ Encoder = {
       dataURL:     'http://pdx911.childr.es'
     , refreshRate:    60000
     , processRate:    300
-    , iconUpdateRate: 100000
+    , iconUpdateRate: 890000
+    , filterRate:     59000
     
-    , mapDivID:         'pdx911-map'
-    , listSelector:     '#pdx911-list'
-    , listItemSelector: '.pdx911-list-item'
-    , activeItemClass:  'current'
+    , mapDivID:             'pdx911-map'
+    , listSelector:         '#pdx911-list'
+    , listItemSelector:     '.pdx911-list-item'
+    , ageFilterSelector: '#pdx911-age-filter'
+    , activeItemClass:      'current'
+    , hiddenItemClass:      'hidden'
     
     , mapOptions: {
         zoom:    12
@@ -310,6 +313,14 @@ Encoder = {
   
     // Single infoWindow used for all map markers.
   , infoWindow: new google.maps.InfoWindow()
+  
+    // Filters used to determine which dispatches are displayed.
+    // TODO: filter by category and agency
+  , filters: {
+      age:      0
+    , category: ""
+    , agency:   ""
+    }
   
   };
 
@@ -411,6 +422,9 @@ Encoder = {
       }
     });
     
+    // Hide or show this dispatch based on filter values.
+    this.filter();
+    
   };
   
   
@@ -452,14 +466,14 @@ Encoder = {
       }
     }
     return icons[0];
-  }
+  };
   
   // Update the icon for this marker, UNLESS the marker is highlighted.
   p.updateIcon = function() {
     if (!this.highlighted) {
       this.marker.setIcon(this.markerIcon());
     }
-  }
+  };
   
   
   
@@ -477,7 +491,7 @@ Encoder = {
     // Change the marker icon to the highlight color.
     this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
-  }
+  };
   
   // Remove the highlighting of this dispatch on the list and map.
   p.unhighlight = function() {
@@ -490,17 +504,55 @@ Encoder = {
       App.infoWindow.close();
     }
     this.highlighted = false;
-  }
+  };
   
   // Only highlight this dispatch if it is not currently highlighted.
   // Return 'true' if this dispatch is highlighted.
-  p.toggleHighlight = function(){
+  p.toggleHighlight = function() {
     if (this.highlighted) {
       this.unhighlight();
     } else {
       this.highlight();
     }
     return this.highlighted;
+  };
+  
+  
+  
+  
+  // Hide this item from the list and map.
+  p.hide = function() {
+    if (this.marker.getVisible()) {
+      this.marker.setVisible(false);
+    }
+    if (!this.$listItem.hasClass(config.hiddenItemClass)) {
+      this.$listItem.addClass(config.hiddenItemClass);
+    }
+  };
+  
+  // Unhide this item from the list and map.
+  p.unhide = function() {
+    if (!this.marker.getVisible()) {
+      this.marker.setVisible(true);
+    }
+    if (this.$listItem.hasClass(config.hiddenItemClass)) {
+      this.$listItem.removeClass(config.hiddenItemClass);
+    }
+  };
+  
+  
+  
+  
+  // Determine whether to show or hide this dispatch, based on filter values.
+  // Unhighlight any dispatches that are to be hidden.
+  p.filter = function() {
+    var age = App.filters.age;
+    if (age && this.date < (new Date()) - age) {
+      this.unhighlight();
+      this.hide();
+    } else {
+      this.unhide();
+    }
   }
   
   
@@ -517,8 +569,10 @@ Encoder = {
     , uids       = App.uids
     , queue      = App.queue
     , dispatches = App.dispatches
+    , filters    = App.filters
     , map
     , $list
+    , $ageFilter
 
 
 
@@ -553,12 +607,18 @@ Encoder = {
         // Fetch the RSS now and on an interval.
         getData();
         setInterval(getData, config.refreshRate);
-        // Process the queue on an interval
+        // Process the queue on an interval.
         setInterval(processDispatchQueue, config.processRate);
-        // Update marker icon colors on interval
+        // Update marker icon colors on interval.
         setInterval(updateMarkerIcons, config.iconUpdateRate);        
+        // Filter the displayed dispatches on interval.
+        setInterval(filterDispatches, config.filterRate);        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
+        // Get the DOM node for the select tag of the recentness filter.
+        $ageFilter = $(config.ageFilterSelector);
+        // Filter dispatches whenever the filter value changes.
+        $ageFilter.change(updateFilters).change();
       }
       
       // Add an unprocessed dispatch RSS entry to the queue.
@@ -592,6 +652,20 @@ Encoder = {
         while (i--) {
           dispatches[i].updateIcon();
         }
+      }
+      
+      // Update the app filter values, then filter all dispatches.
+    , updateFilters = function() {
+        filters.age = parseInt($ageFilter.val(), 10);
+        filterDispatches();
+      }
+      
+      // Filter all dispatches.
+    , filterDispatches = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].filter();
+        }        
       };
     
 

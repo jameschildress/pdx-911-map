@@ -18,12 +18,15 @@
       dataURL:     'http://pdx911.childr.es'
     , refreshRate:    60000
     , processRate:    300
-    , iconUpdateRate: 100000
+    , iconUpdateRate: 890000
+    , filterRate:     59000
     
-    , mapDivID:         'pdx911-map'
-    , listSelector:     '#pdx911-list'
-    , listItemSelector: '.pdx911-list-item'
-    , activeItemClass:  'current'
+    , mapDivID:             'pdx911-map'
+    , listSelector:         '#pdx911-list'
+    , listItemSelector:     '.pdx911-list-item'
+    , ageFilterSelector: '#pdx911-age-filter'
+    , activeItemClass:      'current'
+    , hiddenItemClass:      'hidden'
     
     , mapOptions: {
         zoom:    12
@@ -53,6 +56,14 @@
   
     // Single infoWindow used for all map markers.
   , infoWindow: new google.maps.InfoWindow()
+  
+    // Filters used to determine which dispatches are displayed.
+    // TODO: filter by category and agency
+  , filters: {
+      age:      0
+    , category: ""
+    , agency:   ""
+    }
   
   };
 
