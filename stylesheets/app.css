@@ -124,4 +124,5 @@ body {
   background: #eeeeee; }
   /* line 175, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-filters select {
-    width: 100%; }
+    width: 100%;
+    color: #666; }
