@@ -273,17 +273,20 @@ Encoder = {
     config: {  
       
       dataURL:     'http://pdx911.childr.es'
+      
     , refreshRate:    60000
     , processRate:    300
     , iconUpdateRate: 890000
     , filterRate:     59000
+    , timeUpdateRate: 60000
     
-    , mapDivID:             'pdx911-map'
-    , listSelector:         '#pdx911-list'
-    , listItemSelector:     '.pdx911-list-item'
+    , mapDivID:          'pdx911-map'
+    , listSelector:      '#pdx911-list'
+    , listItemSelector:  '.pdx911-list-item'
     , ageFilterSelector: '#pdx911-age-filter'
-    , activeItemClass:      'current'
-    , hiddenItemClass:      'hidden'
+    , timeSelector:      'time'
+    , activeItemClass:   'current'
+    , hiddenItemClass:   'hidden'
     
     , mapOptions: {
         zoom:    12
@@ -322,6 +325,42 @@ Encoder = {
     , agency:   ""
     }
   
+  };
+
+
+
+
+}());
+(function(){
+  'use strict';
+
+
+
+  
+  var second = 1000
+    , minute = second * 60
+    , hour   = minute * 60
+
+  App.timeAgoInWords = function(date) {
+    
+    var now     = new Date()
+      , age     = now - date
+      , strings = []
+      , hours   = Math.floor(age / hour)
+      , minutes = Math.floor((age % hour) / minute);
+    
+    if (hours + minutes === 0) {
+      return "less than 1 minute ago";
+    }
+    if (hours) {
+      strings.push(hours + " " + (hours === 1 ? "hour" : "hours"));
+    }
+    if (minutes) {
+      strings.push(minutes + " " + (minutes === 1 ? "minute" : "minutes"));
+    }
+
+    return strings.join(' and ') + ' ago';
+    
   };
 
 
@@ -404,12 +443,13 @@ Encoder = {
         
     // Create and append this list item to the HTML list.
     this.$listItem = $(this.listItemHTML()).appendTo($list);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
     
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
         // Display the infoWindow.
-        App.infoWindow.setContent(self.listItemHTML());
+        // NOTE: infoWindow text is updated when updateTimeAgo() is called when highlighting.
         App.infoWindow.open(self.marker.getMap(), self.marker);
       }
     });
@@ -443,7 +483,7 @@ Encoder = {
       '</h2><p>' +
       this.address +
       '</p><time>' +
-      this.date.toLocaleTimeString() +
+      App.timeAgoInWords(this.date) +
       '</time></div>';
     return html;
   };
@@ -493,6 +533,8 @@ Encoder = {
     // Change the marker icon to the highlight color.
     this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
+    // Update the timeAgo for this list item.
+    this.updateTimeAgo();
   };
   
   // Remove the highlighting of this dispatch on the list and map.
@@ -564,6 +606,17 @@ Encoder = {
   
   
   
+  // Update the time-ago description for this list item and infoWindow.
+  p.updateTimeAgo = function() {
+    this.$timeAgo.text(App.timeAgoInWords(this.date));
+    if (this.highlighted) {
+      App.infoWindow.setContent(this.listItemHTML());
+    }
+  }
+  
+  
+  
+  
 }());
 (function(){
   'use strict';
@@ -618,7 +671,9 @@ Encoder = {
         // Update marker icon colors on interval.
         setInterval(updateMarkerIcons, config.iconUpdateRate);        
         // Filter the displayed dispatches on interval.
-        setInterval(filterDispatches, config.filterRate);        
+        setInterval(filterDispatches, config.filterRate);
+        // Update every timeAgoInWords on interval.
+        setInterval(updateTimeAgos, config.timeUpdateRate)
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
         // Get the DOM node for the select tag of the recentness filter.
@@ -672,7 +727,15 @@ Encoder = {
         while (i--) {
           dispatches[i].filter();
         }        
-      };
+      }
+      
+      // Update the timeAgo text for every dispatch.
+    , updateTimeAgos = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].updateTimeAgo();
+        }        
+      }
     
 
 
@@ -689,6 +752,7 @@ Encoder = {
 //
 
 // 
+
 
 
 

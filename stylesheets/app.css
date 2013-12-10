@@ -80,8 +80,8 @@ body {
   .pdx911-list-item time {
     margin: 0;
     font-size: 13px;
-    color: #666666;
-    font-weight: bold; }
+    font-weight: normal;
+    color: #666666; }
   /* line 126, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.current {
     background: #0077cc; }

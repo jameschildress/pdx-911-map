@@ -51,7 +51,9 @@
         // Update marker icon colors on interval.
         setInterval(updateMarkerIcons, config.iconUpdateRate);        
         // Filter the displayed dispatches on interval.
-        setInterval(filterDispatches, config.filterRate);        
+        setInterval(filterDispatches, config.filterRate);
+        // Update every timeAgoInWords on interval.
+        setInterval(updateTimeAgos, config.timeUpdateRate)
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
         // Get the DOM node for the select tag of the recentness filter.
@@ -105,7 +107,15 @@
         while (i--) {
           dispatches[i].filter();
         }        
-      };
+      }
+      
+      // Update the timeAgo text for every dispatch.
+    , updateTimeAgos = function() {
+        var i = dispatches.length;
+        while (i--) {
+          dispatches[i].updateTimeAgo();
+        }        
+      }
     
 
 

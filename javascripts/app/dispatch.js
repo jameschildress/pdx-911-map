@@ -39,12 +39,13 @@
         
     // Create and append this list item to the HTML list.
     this.$listItem = $(this.listItemHTML()).appendTo($list);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
     
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
         // Display the infoWindow.
-        App.infoWindow.setContent(self.listItemHTML());
+        // NOTE: infoWindow text is updated when updateTimeAgo() is called when highlighting.
         App.infoWindow.open(self.marker.getMap(), self.marker);
       }
     });
@@ -78,7 +79,7 @@
       '</h2><p>' +
       this.address +
       '</p><time>' +
-      this.date.toLocaleTimeString() +
+      App.timeAgoInWords(this.date) +
       '</time></div>';
     return html;
   };
@@ -128,6 +129,8 @@
     // Change the marker icon to the highlight color.
     this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
+    // Update the timeAgo for this list item.
+    this.updateTimeAgo();
   };
   
   // Remove the highlighting of this dispatch on the list and map.
@@ -193,6 +196,17 @@
       this.hide();
     } else {
       this.unhide();
+    }
+  }
+  
+  
+  
+  
+  // Update the time-ago description for this list item and infoWindow.
+  p.updateTimeAgo = function() {
+    this.$timeAgo.text(App.timeAgoInWords(this.date));
+    if (this.highlighted) {
+      App.infoWindow.setContent(this.listItemHTML());
     }
   }
   
