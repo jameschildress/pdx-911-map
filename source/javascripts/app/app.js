@@ -16,17 +16,20 @@
     config: {  
       
       dataURL:     'http://pdx911.childr.es'
+      
     , refreshRate:    60000
     , processRate:    300
     , iconUpdateRate: 890000
     , filterRate:     59000
+    , timeUpdateRate: 60000
     
-    , mapDivID:             'pdx911-map'
-    , listSelector:         '#pdx911-list'
-    , listItemSelector:     '.pdx911-list-item'
+    , mapDivID:          'pdx911-map'
+    , listSelector:      '#pdx911-list'
+    , listItemSelector:  '.pdx911-list-item'
     , ageFilterSelector: '#pdx911-age-filter'
-    , activeItemClass:      'current'
-    , hiddenItemClass:      'hidden'
+    , timeSelector:      'time'
+    , activeItemClass:   'current'
+    , hiddenItemClass:   'hidden'
     
     , mapOptions: {
         zoom:    12

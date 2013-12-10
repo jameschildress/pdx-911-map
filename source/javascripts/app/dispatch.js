@@ -39,6 +39,7 @@
         
     // Create and append this list item to the HTML list.
     this.$listItem = $(this.listItemHTML()).appendTo($list);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
     
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
@@ -128,6 +129,8 @@
     // Change the marker icon to the highlight color.
     this.marker.setIcon(App.highlightIcon);
     this.highlighted = true;
+    // Update the timeAgo for this list item.
+    this.updateTimeAgo();
   };
   
   // Remove the highlighting of this dispatch on the list and map.
@@ -194,6 +197,14 @@
     } else {
       this.unhide();
     }
+  }
+  
+  
+  
+  
+  // Update the time-ago description for this list item.
+  p.updateTimeAgo = function() {
+    this.$timeAgo.text(App.timeAgoInWords(this.date));
   }
   
   
