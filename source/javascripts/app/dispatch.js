@@ -78,7 +78,7 @@
       '</h2><p>' +
       this.address +
       '</p><time>' +
-      this.date.toLocaleTimeString() +
+      App.timeAgoInWords(this.date) +
       '</time></div>';
     return html;
   };

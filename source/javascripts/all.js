@@ -4,6 +4,7 @@
 //= require vendor/encoder
 // 
 //= require app/app
+//= require app/time_ago
 //= require app/markers
 //= require app/dispatch
 //= require app/initialize
