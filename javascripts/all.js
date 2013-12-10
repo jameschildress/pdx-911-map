@@ -419,6 +419,8 @@ Encoder = {
       if (self.toggleHighlight()) {
         // Center on the map maker.
         map.setCenter(self.marker.position);
+        // Bounce the map marker.
+        self.marker.setAnimation(google.maps.Animation.BOUNCE);
       }
     });
     
@@ -502,6 +504,10 @@ Encoder = {
       this.marker.setIcon(this.markerIcon());
       // Close the infoWindow.
       App.infoWindow.close();
+      // Stop the bouncing map marker.
+      if (this.marker.getAnimation() != null) {
+        this.marker.setAnimation(null);
+      }
     }
     this.highlighted = false;
   };
