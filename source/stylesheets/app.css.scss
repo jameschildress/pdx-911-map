@@ -3,7 +3,7 @@
 
 
 
-$list-width: 250px;
+$list-width: 300px;
 $list-bg: #fff;
 $list-item-padding: 10px;
 $list-item-border: #ccc;
@@ -14,7 +14,7 @@ $text-color: #666;
 $active-item-color: $heading-color;
 $active-heading-color: #fff;
 $active-text-color: #fff;
-$font: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+$font: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $header-bg: #eee;
 
 
@@ -44,6 +44,10 @@ body {
 
 #pdx911-map {
   height: 100%;
+  
+  .pdx911-list-item {
+    white-space: nowrap;
+  }
 }
 
 
@@ -52,6 +56,7 @@ body {
 #pdx911-header {
   padding: 5px $list-item-padding $list-item-padding $list-item-padding;
   background: $header-bg;
+  text-align: center;
   
   h1 {
     color: $title-color;
@@ -98,21 +103,22 @@ body {
   font-family: $font !important;
   
   h2 {
-    font-size: 14px;
+    font-size: 15px;
     text-transform: capitalize;
-    margin: 0 0 5px 0;
+    margin: 0 0 3px 0;
     color: $heading-color;
   }
   
   p {
-    margin: 0 5px 0 0;
-    font-size: 10px;
+    margin: 0 0 2px 0;
+    font-size: 11px;
+    font-weight: normal;
     color: $text-color;
   }
   
   time {
     margin: 0;
-    font-size: 12px;
+    font-size: 13px;
     color: $text-color;
     font-weight: bold;    
   }
