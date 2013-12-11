@@ -8,14 +8,13 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, uid) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
       , lat = parseFloat(geo[0], 10)
       , lng = parseFloat(geo[1], 10)
-      , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd')
-      , self = this;
+      , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd');
       
     // Parse properties from the XML.
     this.uid     = uid;
@@ -24,10 +23,28 @@
     this.agency  = $contentDDtags.eq(3).text();
     this.date    = new Date($xml.find('updated').text());
     this.latlng  = new google.maps.LatLng(lat, lng);
-    
+
     // Remember if this dispatch is highlighted on the list and map.
     this.highlighted = false;
     
+    // UI elements are null until render() is called.
+    this.marker    = null;
+    this.$listItem = null;
+    this.$timeAgo  = null;
+    
+  };
+  
+  
+  
+  
+  p = App.Dispatch.prototype;
+  
+  
+  // Render the map marker and list item for this dispatch.
+  p.render = function(map, $list) {
+    
+    var self = this;
+
     // Create and display the Google Map marker for this dispatch.
     this.marker = new google.maps.Marker({
       position:  this.latlng
@@ -61,15 +78,12 @@
     });
     
     // Hide or show this dispatch based on filter values.
-    this.filter();
-    
+    this.filter();  
   };
   
   
   
   
-  p = App.Dispatch.prototype;
-    
   // Return the HTML for this list item.
   p.listItemHTML = function() {
     var html = '<div class="pdx911-list-item" data-uid="' +
