@@ -78,6 +78,17 @@
       '</time></div>';
   };
   
+  // Return the HTML for this info window.
+  p.infoWindowHTML = function() {
+    return '<div class="pdx911-list-item"><h2>' +
+      this.category.title +
+      '</h2><p>' +
+      this.address +
+      '</p><time>' +
+      App.timeAgoInWords(this.date) +
+      '</time></div>';
+  };
+  
   
   
   
@@ -200,7 +211,7 @@
   p.updateTimeAgo = function() {
     this.$timeAgo.text(App.timeAgoInWords(this.date));
     if (this.highlighted) {
-      App.infoWindow.setContent(this.listItemHTML());
+      App.infoWindow.setContent(this.infoWindowHTML());
     }
   }
   
