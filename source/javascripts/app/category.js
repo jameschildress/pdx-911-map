@@ -10,6 +10,7 @@
 
   App.Category = function($list, title) {
     
+    // Add this category to the App.categories array.
     categories.push(this);
     
     this.title = title;
@@ -25,8 +26,8 @@
   
   
   
-  // If a category exists with the given title, return that title.
-  // Otherwise, return a new category and append it to the categories array.
+  // If a category exists with the given title, return that category.
+  // Otherwise, return a new category.
   App.Category.findOrCreate = function($list, title) {
     var i = categories.length;
     while (i--) {

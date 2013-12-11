@@ -5,7 +5,6 @@
 
 
   var config     = App.config
-    , uids       = App.uids
     , queue      = App.queue
     , dispatches = App.dispatches
     , filters    = App.filters
@@ -69,21 +68,8 @@
       
       // Process a single entry in the queue unless the queue is empty.
     , processDispatchQueue = function() {
-        var $xml, uid, dispatch;
         if (queue.length > 0) {
-          // Remove a single entry from the queue.
-          $xml = $(queue.pop());
-          // Get the unique ID of this entry.
-          uid = $xml.find('id').text();
-          // If this dispatch isn't already in the array of unique IDs...
-          // - Add it to the array of unique IDs
-          // - Create and render a new Dispatch
-          // - Add the new dispatch to the dispatches array.
-          if (uids.indexOf(uid) < 0) {
-            uids.push(uid);
-            dispatch = new App.Dispatch($xml, map, $list);
-            dispatches.push(dispatch);
-          }
+          App.Dispatch.findOrCreate( $(queue.pop()), map, $list );
         }
       }
       
