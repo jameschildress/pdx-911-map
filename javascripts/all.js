@@ -272,10 +272,11 @@ Encoder = {
   
     config: {  
       
-      dataURL:     'http://pdx911.childr.es'
+      dataURL:  'http://pdx911.childr.es'
+    , feedSize: 100
       
     , refreshRate:    60000
-    , processRate:    300
+    , processRate:    30
     , iconUpdateRate: 890000
     , filterRate:     59000
     , timeUpdateRate: 60000
@@ -549,7 +550,7 @@ Encoder = {
     this.marker = new google.maps.Marker({
       position:  this.latlng
     , title:     this.category.title
-    , animation: google.maps.Animation.DROP
+    , animation: this.markerAnimation()
     , icon:      this.markerIcon()
     , map:       map
     });
@@ -630,6 +631,12 @@ Encoder = {
     if (!this.highlighted) {
       this.marker.setIcon(this.markerIcon());
     }
+  };
+  
+  // Return the animation type for new dispatch markers.
+  // Markers from the initially loaded feed should not be animated.
+  p.markerAnimation = function(){
+    return App.dispatches.length > config.feedSize ? google.maps.Animation.DROP : null;
   };
   
   

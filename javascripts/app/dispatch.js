@@ -40,7 +40,7 @@
     this.marker = new google.maps.Marker({
       position:  this.latlng
     , title:     this.category.title
-    , animation: google.maps.Animation.DROP
+    , animation: this.markerAnimation()
     , icon:      this.markerIcon()
     , map:       map
     });
@@ -121,6 +121,12 @@
     if (!this.highlighted) {
       this.marker.setIcon(this.markerIcon());
     }
+  };
+  
+  // Return the animation type for new dispatch markers.
+  // Markers from the initially loaded feed should not be animated.
+  p.markerAnimation = function(){
+    return App.dispatches.length > config.feedSize ? google.maps.Animation.DROP : null;
   };
   
   

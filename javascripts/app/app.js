@@ -15,10 +15,11 @@
   
     config: {  
       
-      dataURL:     'http://pdx911.childr.es'
+      dataURL:  'http://pdx911.childr.es'
+    , feedSize: 100
       
     , refreshRate:    60000
-    , processRate:    300
+    , processRate:    30
     , iconUpdateRate: 890000
     , filterRate:     59000
     , timeUpdateRate: 60000
