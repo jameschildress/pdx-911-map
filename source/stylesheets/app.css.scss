@@ -16,6 +16,7 @@ $active-heading-color: #fff;
 $active-text-color: #fff;
 $font: Roboto, 'Helvetica Neue', Helvetica, Arial, sans-serif;
 $header-bg: #eee;
+$max-mobile-width: 767px;
 
 
 
@@ -48,6 +49,10 @@ h2 {
   bottom: 0;
   background: #000;
   border-left: 1px solid $map-border;
+  
+  @media (max-width: $max-mobile-width) {
+    display: none;
+  }
 }
 
 #pdx911-map {
@@ -95,6 +100,10 @@ h2 {
 
 #pdx911-info {
   width: $list-width;
+  
+  @media (max-width: $max-mobile-width) {
+    width: auto;
+  }
   
   .pdx911-category {
     
@@ -157,6 +166,10 @@ h2 {
   background-repeat: no-repeat;
   @include background-image(linear-gradient(left top, #dc4941, #f1c355));
   overflow-y: auto;
+  
+  @media (max-width: $max-mobile-width) {
+    display: none;
+  }
 
   &:before {
     content: "newer";
