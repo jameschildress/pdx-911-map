@@ -56,7 +56,6 @@
     
     
     // Arrays used throughout the app.
-  , uids:        []  // an array of unique identifiers for each dispatch
   , queue:       []  // a queue of unprocessed dispatch RSS entries
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons

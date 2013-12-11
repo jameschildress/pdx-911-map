@@ -313,7 +313,6 @@ Encoder = {
     
     
     // Arrays used throughout the app.
-  , uids:        []  // an array of unique identifiers for each dispatch
   , queue:       []  // a queue of unprocessed dispatch RSS entries
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons
@@ -419,6 +418,7 @@ Encoder = {
 
   App.Category = function($list, title) {
     
+    // Add this category to the App.categories array.
     categories.push(this);
     
     this.title = title;
@@ -434,8 +434,8 @@ Encoder = {
   
   
   
-  // If a category exists with the given title, return that title.
-  // Otherwise, return a new category and append it to the categories array.
+  // If a category exists with the given title, return that category.
+  // Otherwise, return a new category.
   App.Category.findOrCreate = function($list, title) {
     var i = categories.length;
     while (i--) {
@@ -518,7 +518,7 @@ Encoder = {
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, map, $list) {
+  App.Dispatch = function($xml, uid, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
@@ -528,12 +528,16 @@ Encoder = {
         // If this dispatch category is empty, use the default category title found in App.config.
       , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
+      
+    // Add this dispatch to the App.dispatches array.
+    App.dispatches.push(this);
 
     // Add this dispatch to a new or existing category.
     this.category = App.Category.findOrCreate($list, categoryTitle);
     this.category.dispatches.push(this);
     
     // Parse properties from the XML.
+    this.uid      = uid;
     this.address  = $contentDDtags.eq(2).text();
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
@@ -577,6 +581,23 @@ Encoder = {
     // Hide or show this dispatch based on filter values.
     this.filter();
     
+  };
+  
+  
+  
+  
+  // If a dispatch exists with the given UID, return that title.
+  // Otherwise, return a new dispatch.
+  App.Dispatch.findOrCreate = function($xml, map, $list) {
+    var dispatches = App.dispatches
+      , i = dispatches.length
+      , uid = $xml.find('id').text();
+    while (i--) {
+      if (dispatches[i].uid === uid) {
+        return dispatches[i];
+      }
+    }
+    return new App.Dispatch($xml, uid, map, $list);
   };
   
   
@@ -749,7 +770,6 @@ Encoder = {
 
 
   var config     = App.config
-    , uids       = App.uids
     , queue      = App.queue
     , dispatches = App.dispatches
     , filters    = App.filters
@@ -813,21 +833,8 @@ Encoder = {
       
       // Process a single entry in the queue unless the queue is empty.
     , processDispatchQueue = function() {
-        var $xml, uid, dispatch;
         if (queue.length > 0) {
-          // Remove a single entry from the queue.
-          $xml = $(queue.pop());
-          // Get the unique ID of this entry.
-          uid = $xml.find('id').text();
-          // If this dispatch isn't already in the array of unique IDs...
-          // - Add it to the array of unique IDs
-          // - Create and render a new Dispatch
-          // - Add the new dispatch to the dispatches array.
-          if (uids.indexOf(uid) < 0) {
-            uids.push(uid);
-            dispatch = new App.Dispatch($xml, map, $list);
-            dispatches.push(dispatch);
-          }
+          App.Dispatch.findOrCreate( $(queue.pop()), map, $list );
         }
       }
       

@@ -8,7 +8,7 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, map, $list) {
+  App.Dispatch = function($xml, uid, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
@@ -18,12 +18,16 @@
         // If this dispatch category is empty, use the default category title found in App.config.
       , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
+      
+    // Add this dispatch to the App.dispatches array.
+    App.dispatches.push(this);
 
     // Add this dispatch to a new or existing category.
     this.category = App.Category.findOrCreate($list, categoryTitle);
     this.category.dispatches.push(this);
     
     // Parse properties from the XML.
+    this.uid      = uid;
     this.address  = $contentDDtags.eq(2).text();
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
@@ -67,6 +71,23 @@
     // Hide or show this dispatch based on filter values.
     this.filter();
     
+  };
+  
+  
+  
+  
+  // If a dispatch exists with the given UID, return that title.
+  // Otherwise, return a new dispatch.
+  App.Dispatch.findOrCreate = function($xml, map, $list) {
+    var dispatches = App.dispatches
+      , i = dispatches.length
+      , uid = $xml.find('id').text();
+    while (i--) {
+      if (dispatches[i].uid === uid) {
+        return dispatches[i];
+      }
+    }
+    return new App.Dispatch($xml, uid, map, $list);
   };
   
   
