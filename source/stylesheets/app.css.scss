@@ -28,10 +28,6 @@ $max-mobile-width: 767px;
 body {
   background: $list-bg;
   font-family: $font;
-  
-  @media (max-width: $max-mobile-width) {
-    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  }
 }
 
 h2 {
