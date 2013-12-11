@@ -18,29 +18,29 @@
       , self = this;
       
     // Parse properties from the XML.
-    this.uid     = uid;
-    this.title   = $xml.find('category').attr('label').toLowerCase();
-    this.address = $contentDDtags.eq(2).text();
-    this.agency  = $contentDDtags.eq(3).text();
-    this.date    = new Date($xml.find('updated').text());
-    this.latlng  = new google.maps.LatLng(lat, lng);
+    this.uid      = uid;
+    this.category = App.Category.findOrCreate($list, $xml.find('category').attr('label'));
+    this.address  = $contentDDtags.eq(2).text();
+    this.agency   = $contentDDtags.eq(3).text();
+    this.date     = new Date($xml.find('updated').text());
+    this.latlng   = new google.maps.LatLng(lat, lng);
     
     // Remember if this dispatch is highlighted on the list and map.
     this.highlighted = false;
     
+    // Create and append this list item to the HTML list.
+    this.$listItem = $(this.listItemHTML()).prependTo(this.category.$dispatchesWrapper);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
+    
     // Create and display the Google Map marker for this dispatch.
     this.marker = new google.maps.Marker({
       position:  this.latlng
-    , title:     this.title 
+    , title:     this.category.title
     , animation: google.maps.Animation.DROP
     , icon:      this.markerIcon()
     , map:       map
     });
         
-    // Create and append this list item to the HTML list.
-    this.$listItem = $(this.listItemHTML()).appendTo($list);
-    this.$timeAgo  = this.$listItem.find(config.timeSelector);
-    
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
@@ -72,11 +72,7 @@
     
   // Return the HTML for this list item.
   p.listItemHTML = function() {
-    var html = '<div class="pdx911-list-item" data-uid="' +
-      this.uid +
-      '"><h2>' + 
-      this.title +
-      '</h2><p>' +
+    var html = '<div class="pdx911-list-item"><p>' +
       this.address +
       '</p><time>' +
       App.timeAgoInWords(this.date) +

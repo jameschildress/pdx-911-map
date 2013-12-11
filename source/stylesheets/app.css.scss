@@ -90,11 +90,7 @@ body {
   
   .pdx911-list-item {
     border-bottom: 1px solid $list-item-border;
-    padding: $list-item-padding;
-    
-    p, time {
-      margin-left: $list-item-padding;
-    }
+    padding: $list-item-padding;    
   }
 }
 
