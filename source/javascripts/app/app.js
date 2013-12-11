@@ -32,6 +32,8 @@
     , activeItemClass:     'current'
     , hiddenItemClass:     'hidden'
     
+    , uncategorizedDispatchTitle: 'uncategorized dispatch'
+    
     , mapOptions: {
         zoom:    12
       , minZoom: 11

@@ -15,10 +15,12 @@
       , lat = parseFloat(geo[0], 10)
       , lng = parseFloat(geo[1], 10)
       , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd')
+        // If this dispatch category is empty, use the default category title found in App.config.
+      , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
       
     // Parse properties from the XML.
-    this.category = App.Category.findOrCreate($list, $xml.find('category').attr('label').trim().toLowerCase());
+    this.category = App.Category.findOrCreate($list, categoryTitle);
     this.address  = $contentDDtags.eq(2).text();
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
