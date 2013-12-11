@@ -18,9 +18,12 @@
         // If this dispatch category is empty, use the default category title found in App.config.
       , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
-      
-    // Parse properties from the XML.
+
+    // Add this dispatch to a new or existing category.
     this.category = App.Category.findOrCreate($list, categoryTitle);
+    this.category.dispatches.push(this);
+    
+    // Parse properties from the XML.
     this.address  = $contentDDtags.eq(2).text();
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
@@ -204,6 +207,8 @@
     } else {
       this.unhide();
     }
+    // Inform the parent category that the dispatch list has changed.
+    this.category.dispatchListChanged();
   }
   
   

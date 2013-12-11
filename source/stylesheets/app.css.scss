@@ -105,6 +105,10 @@ h2 {
       padding: 3px $list-item-padding;    
       border-bottom: 1px solid $list-item-border;
     }
+    
+    &.hidden {
+      display: none;
+    }
   }
   
   .pdx911-list-item {

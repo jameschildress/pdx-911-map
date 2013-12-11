@@ -9,11 +9,17 @@
 
 
   App.Category = function($list, title) {
+    
     categories.push(this);
+    
     this.title = title;
+    this.dispatches = [];
+    
     this.$listGroup = $(this.listGroupHTML());
+    
     this.renderIn($list);
     this.$itemsWrapper = this.$listGroup.find('.' + config.listItemsGroupClass);
+    
   };
   
   
@@ -62,6 +68,32 @@
       this.$listGroup.insertAfter(categories[i - 1].$listGroup);
     }
   }
+  
+  // This should be called whenever a change has been made to the list of dispatches in this category.
+  // Hide this category if all of its dispatches are hidden.
+  p.dispatchListChanged = function() {
+    var i = this.dispatches.length;
+    while (i--) {
+      if (this.dispatches[i].marker.getVisible()) {
+        return this.unhide();
+      }
+    }
+    return this.hide();
+  };
+  
+  // Hide this category from the list.
+  p.hide = function() {
+    if (!this.$listGroup.hasClass(config.hiddenItemClass)) {
+      this.$listGroup.addClass(config.hiddenItemClass);
+    }
+  };
+  
+  // Show this category in the list.
+  p.unhide = function() {
+    if (this.$listGroup.hasClass(config.hiddenItemClass)) {
+      this.$listGroup.removeClass(config.hiddenItemClass);
+    }
+  };
 
 
 
