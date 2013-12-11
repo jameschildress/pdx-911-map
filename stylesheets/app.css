@@ -7,7 +7,14 @@ body {
   background: white;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif; }
 
-/* line 35, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 32, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+h2 {
+  font-size: 15px;
+  text-transform: capitalize;
+  margin: 0 0 3px 0;
+  color: #0077cc; }
+
+/* line 43, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map-wrapper {
   position: fixed;
   left: 300px;
@@ -17,85 +24,83 @@ body {
   background: #000;
   border-left: 1px solid #888888; }
 
-/* line 45, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 53, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map {
   height: 100%; }
-  /* line 48, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 56, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-map .pdx911-list-item {
     white-space: nowrap; }
 
-/* line 56, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 64, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-header {
   padding: 5px 10px 10px 10px;
   background: #eeeeee;
   text-align: center; }
-  /* line 61, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 69, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header h1 {
     color: #777777;
     font-size: 36px;
     margin: 0; }
-  /* line 67, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 75, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header p {
     color: #777777;
     font-size: 12px;
     margin: 0; }
-  /* line 73, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 81, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header a {
     text-decoration: none;
     color: #777777;
     border-bottom: 1px dotted #777777; }
-    /* line 78, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 86, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-header a:hover {
       color: #0077cc;
       border-color: #0077cc; }
 
-/* line 88, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 96, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-info {
   width: 300px; }
-  /* line 91, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 101, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  #pdx911-info .pdx911-category h2 {
+    display: block;
+    background: #f3f3f3;
+    margin: 0;
+    padding: 3px 10px;
+    border-bottom: 1px solid #cccccc; }
+  /* line 109, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  #pdx911-info .pdx911-category.hidden {
+    display: none; }
+  /* line 114, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-info .pdx911-list-item {
     border-bottom: 1px solid #cccccc;
     padding: 10px; }
-    /* line 95, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
-    #pdx911-info .pdx911-list-item p, #pdx911-info .pdx911-list-item time {
-      margin-left: 10px; }
 
-/* line 101, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 120, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 .pdx911-list-item {
   cursor: pointer;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif !important; }
-  /* line 105, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
-  .pdx911-list-item h2 {
-    font-size: 15px;
-    text-transform: capitalize;
-    margin: 0 0 3px 0;
-    color: #0077cc; }
-  /* line 112, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 124, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item p {
     margin: 0 0 2px 0;
     font-size: 11px;
     font-weight: normal;
     color: #666666; }
-  /* line 119, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 131, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item time {
     margin: 0;
     font-size: 13px;
     font-weight: normal;
     color: #666666; }
-  /* line 126, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 138, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.current {
     background: #0077cc; }
-    /* line 129, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
-    .pdx911-list-item.current h2 {
-      color: white; }
-    /* line 133, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 141, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     .pdx911-list-item.current p, .pdx911-list-item.current time {
       color: white; }
-  /* line 138, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 146, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.hidden {
     display: none; }
 
-/* line 146, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 154, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-gradient {
   background-image: url("../images/gradient.png");
   background-size: 100% 100%;
@@ -106,28 +111,28 @@ body {
   background-image: -o-linear-gradient(left top, #dc4941, #f1c355);
   background-image: linear-gradient(left top, #dc4941, #f1c355);
   overflow-y: auto; }
-  /* line 153, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 161, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before {
     content: "newer";
     float: left;
     color: #fff; }
-  /* line 159, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 167, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:after {
     content: "older";
     float: right;
     color: #333; }
-  /* line 165, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 173, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before, #pdx911-gradient:after {
     text-transform: uppercase;
     font-size: 11px;
     padding: 5px 10px; }
 
-/* line 176, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 184, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-filters {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
   background: #eeeeee; }
-  /* line 181, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 189, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-filters select {
     width: 100%;
     color: #666; }

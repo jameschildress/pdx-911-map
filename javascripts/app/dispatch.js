@@ -8,39 +8,43 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
       , lat = parseFloat(geo[0], 10)
       , lng = parseFloat(geo[1], 10)
       , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd')
+        // If this dispatch category is empty, use the default category title found in App.config.
+      , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
-      
+
+    // Add this dispatch to a new or existing category.
+    this.category = App.Category.findOrCreate($list, categoryTitle);
+    this.category.dispatches.push(this);
+    
     // Parse properties from the XML.
-    this.uid     = uid;
-    this.title   = $xml.find('category').attr('label').toLowerCase();
-    this.address = $contentDDtags.eq(2).text();
-    this.agency  = $contentDDtags.eq(3).text();
-    this.date    = new Date($xml.find('updated').text());
-    this.latlng  = new google.maps.LatLng(lat, lng);
+    this.address  = $contentDDtags.eq(2).text();
+    this.agency   = $contentDDtags.eq(3).text();
+    this.date     = new Date($xml.find('updated').text());
+    this.latlng   = new google.maps.LatLng(lat, lng);
     
     // Remember if this dispatch is highlighted on the list and map.
     this.highlighted = false;
     
+    // Create and append this list item to the HTML list.
+    this.$listItem = $(this.listItemHTML()).prependTo(this.category.$itemsWrapper);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
+    
     // Create and display the Google Map marker for this dispatch.
     this.marker = new google.maps.Marker({
       position:  this.latlng
-    , title:     this.title 
+    , title:     this.category.title
     , animation: google.maps.Animation.DROP
     , icon:      this.markerIcon()
     , map:       map
     });
         
-    // Create and append this list item to the HTML list.
-    this.$listItem = $(this.listItemHTML()).appendTo($list);
-    this.$timeAgo  = this.$listItem.find(config.timeSelector);
-    
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
@@ -72,16 +76,22 @@
     
   // Return the HTML for this list item.
   p.listItemHTML = function() {
-    var html = '<div class="pdx911-list-item" data-uid="' +
-      this.uid +
-      '"><h2>' + 
-      this.title +
+    return '<div class="pdx911-list-item"><p>' +
+      this.address +
+      '</p><time>' +
+      App.timeAgoInWords(this.date) +
+      '</time></div>';
+  };
+  
+  // Return the HTML for this info window.
+  p.infoWindowHTML = function() {
+    return '<div class="pdx911-list-item"><h2>' +
+      this.category.title +
       '</h2><p>' +
       this.address +
       '</p><time>' +
       App.timeAgoInWords(this.date) +
       '</time></div>';
-    return html;
   };
   
   
@@ -197,6 +207,8 @@
     } else {
       this.unhide();
     }
+    // Inform the parent category that the dispatch list has changed.
+    this.category.dispatchListChanged();
   }
   
   
@@ -206,7 +218,7 @@
   p.updateTimeAgo = function() {
     this.$timeAgo.text(App.timeAgoInWords(this.date));
     if (this.highlighted) {
-      App.infoWindow.setContent(this.listItemHTML());
+      App.infoWindow.setContent(this.infoWindowHTML());
     }
   }
   

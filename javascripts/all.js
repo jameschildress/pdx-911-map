@@ -280,13 +280,16 @@ Encoder = {
     , filterRate:     59000
     , timeUpdateRate: 60000
     
-    , mapDivID:          'pdx911-map'
-    , listSelector:      '#pdx911-list'
-    , listItemSelector:  '.pdx911-list-item'
-    , ageFilterSelector: '#pdx911-age-filter'
-    , timeSelector:      'time'
-    , activeItemClass:   'current'
-    , hiddenItemClass:   'hidden'
+    , mapDivID:            'pdx911-map'
+    , listSelector:        '#pdx911-list'
+    , listItemSelector:    '.pdx911-list-item'
+    , ageFilterSelector:   '#pdx911-age-filter'
+    , timeSelector:        'time'
+    , listItemsGroupClass: 'pdx911-category-list' 
+    , activeItemClass:     'current'
+    , hiddenItemClass:     'hidden'
+    
+    , uncategorizedDispatchTitle: 'uncategorized dispatch'
     
     , mapOptions: {
         zoom:    12
@@ -313,6 +316,7 @@ Encoder = {
   , queue:       []  // a queue of unprocessed dispatch RSS entries
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons
+  , categories:  []  // an array of unique identifiers for each category
   
     // Single infoWindow used for all map markers.
   , infoWindow: new google.maps.InfoWindow()
@@ -404,6 +408,107 @@ Encoder = {
 }());
 (function(){
   'use strict';
+
+  var p
+    , config = App.config
+    , categories = App.categories;
+
+
+
+
+  App.Category = function($list, title) {
+    
+    categories.push(this);
+    
+    this.title = title;
+    this.dispatches = [];
+    
+    this.$listGroup = $(this.listGroupHTML());
+    
+    this.renderIn($list);
+    this.$itemsWrapper = this.$listGroup.find('.' + config.listItemsGroupClass);
+    
+  };
+  
+  
+  
+  
+  // If a category exists with the given title, return that title.
+  // Otherwise, return a new category and append it to the categories array.
+  App.Category.findOrCreate = function($list, title) {
+    var i = categories.length;
+    while (i--) {
+      if (categories[i].title === title) {
+        return categories[i];
+      }
+    }
+    return new App.Category($list, title);
+  };
+  
+  
+  
+  
+  p = App.Category.prototype;
+  
+  // Return the HTML for this category in this list.
+  p.listGroupHTML = function() {
+    return '<div class="pdx911-category"><h2>' +
+      this.title +
+      '</h2><div class="' +
+      config.listItemsGroupClass +
+      '"></div></div>';
+  };
+  
+  // A function for sorting categories alphabetically by title.
+  p.sorter = function(a, b) {
+    return a.title < b.title ? -1 : 1;
+  }
+
+  // Added this category's HTML to the list.
+  // The HTML is added in the appropriate alphabetical location.
+  p.renderIn = function($list) {
+    var i;
+    categories.sort(this.sorter);
+    i = categories.indexOf(this);
+    if (i === 0) {
+      this.$listGroup.prependTo($list);
+    } else {
+      this.$listGroup.insertAfter(categories[i - 1].$listGroup);
+    }
+  }
+  
+  // This should be called whenever a change has been made to the list of dispatches in this category.
+  // Hide this category if all of its dispatches are hidden.
+  p.dispatchListChanged = function() {
+    var i = this.dispatches.length;
+    while (i--) {
+      if (this.dispatches[i].marker.getVisible()) {
+        return this.unhide();
+      }
+    }
+    return this.hide();
+  };
+  
+  // Hide this category from the list.
+  p.hide = function() {
+    if (!this.$listGroup.hasClass(config.hiddenItemClass)) {
+      this.$listGroup.addClass(config.hiddenItemClass);
+    }
+  };
+  
+  // Show this category in the list.
+  p.unhide = function() {
+    if (this.$listGroup.hasClass(config.hiddenItemClass)) {
+      this.$listGroup.removeClass(config.hiddenItemClass);
+    }
+  };
+
+
+
+
+}());
+(function(){
+  'use strict';
   
   var p
     , config = App.config;
@@ -412,39 +517,43 @@ Encoder = {
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
       , lat = parseFloat(geo[0], 10)
       , lng = parseFloat(geo[1], 10)
       , $contentDDtags = $($.parseHTML(Encoder.htmlDecode($xml.find('content').text()))).find('dd')
+        // If this dispatch category is empty, use the default category title found in App.config.
+      , categoryTitle = $xml.find('category').attr('label').trim().toLowerCase() || config.uncategorizedDispatchTitle
       , self = this;
-      
+
+    // Add this dispatch to a new or existing category.
+    this.category = App.Category.findOrCreate($list, categoryTitle);
+    this.category.dispatches.push(this);
+    
     // Parse properties from the XML.
-    this.uid     = uid;
-    this.title   = $xml.find('category').attr('label').toLowerCase();
-    this.address = $contentDDtags.eq(2).text();
-    this.agency  = $contentDDtags.eq(3).text();
-    this.date    = new Date($xml.find('updated').text());
-    this.latlng  = new google.maps.LatLng(lat, lng);
+    this.address  = $contentDDtags.eq(2).text();
+    this.agency   = $contentDDtags.eq(3).text();
+    this.date     = new Date($xml.find('updated').text());
+    this.latlng   = new google.maps.LatLng(lat, lng);
     
     // Remember if this dispatch is highlighted on the list and map.
     this.highlighted = false;
     
+    // Create and append this list item to the HTML list.
+    this.$listItem = $(this.listItemHTML()).prependTo(this.category.$itemsWrapper);
+    this.$timeAgo  = this.$listItem.find(config.timeSelector);
+    
     // Create and display the Google Map marker for this dispatch.
     this.marker = new google.maps.Marker({
       position:  this.latlng
-    , title:     this.title 
+    , title:     this.category.title
     , animation: google.maps.Animation.DROP
     , icon:      this.markerIcon()
     , map:       map
     });
         
-    // Create and append this list item to the HTML list.
-    this.$listItem = $(this.listItemHTML()).appendTo($list);
-    this.$timeAgo  = this.$listItem.find(config.timeSelector);
-    
     // Rig the click event of the map marker.
     google.maps.event.addListener(this.marker, 'click', function() {
       if (self.toggleHighlight()) {
@@ -476,16 +585,22 @@ Encoder = {
     
   // Return the HTML for this list item.
   p.listItemHTML = function() {
-    var html = '<div class="pdx911-list-item" data-uid="' +
-      this.uid +
-      '"><h2>' + 
-      this.title +
+    return '<div class="pdx911-list-item"><p>' +
+      this.address +
+      '</p><time>' +
+      App.timeAgoInWords(this.date) +
+      '</time></div>';
+  };
+  
+  // Return the HTML for this info window.
+  p.infoWindowHTML = function() {
+    return '<div class="pdx911-list-item"><h2>' +
+      this.category.title +
       '</h2><p>' +
       this.address +
       '</p><time>' +
       App.timeAgoInWords(this.date) +
       '</time></div>';
-    return html;
   };
   
   
@@ -601,6 +716,8 @@ Encoder = {
     } else {
       this.unhide();
     }
+    // Inform the parent category that the dispatch list has changed.
+    this.category.dispatchListChanged();
   }
   
   
@@ -610,7 +727,7 @@ Encoder = {
   p.updateTimeAgo = function() {
     this.$timeAgo.text(App.timeAgoInWords(this.date));
     if (this.highlighted) {
-      App.infoWindow.setContent(this.listItemHTML());
+      App.infoWindow.setContent(this.infoWindowHTML());
     }
   }
   
@@ -701,7 +818,7 @@ Encoder = {
           // - Add the new dispatch to the dispatches array.
           if (uids.indexOf(uid) < 0) {
             uids.push(uid);
-            dispatch = new App.Dispatch($xml, uid, map, $list);
+            dispatch = new App.Dispatch($xml, map, $list);
             dispatches.push(dispatch);
           }
         }
@@ -752,6 +869,7 @@ Encoder = {
 //
 
 // 
+
 
 
 
