@@ -23,13 +23,14 @@
     , filterRate:     59000
     , timeUpdateRate: 60000
     
-    , mapDivID:          'pdx911-map'
-    , listSelector:      '#pdx911-list'
-    , listItemSelector:  '.pdx911-list-item'
-    , ageFilterSelector: '#pdx911-age-filter'
-    , timeSelector:      'time'
-    , activeItemClass:   'current'
-    , hiddenItemClass:   'hidden'
+    , mapDivID:            'pdx911-map'
+    , listSelector:        '#pdx911-list'
+    , listItemSelector:    '.pdx911-list-item'
+    , ageFilterSelector:   '#pdx911-age-filter'
+    , timeSelector:        'time'
+    , listItemsGroupClass: 'pdx911-category-list' 
+    , activeItemClass:     'current'
+    , hiddenItemClass:     'hidden'
     
     , mapOptions: {
         zoom:    12
@@ -56,6 +57,7 @@
   , queue:       []  // a queue of unprocessed dispatch RSS entries
   , dispatches:  []  // an array of every dispatch rendered on the map
   , markerIcons: []  // an array of map marker icons
+  , categories:  []  // an array of unique identifiers for each category
   
     // Single infoWindow used for all map markers.
   , infoWindow: new google.maps.InfoWindow()

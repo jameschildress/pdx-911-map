@@ -81,7 +81,7 @@
           // - Add the new dispatch to the dispatches array.
           if (uids.indexOf(uid) < 0) {
             uids.push(uid);
-            dispatch = new App.Dispatch($xml, uid, map, $list);
+            dispatch = new App.Dispatch($xml, map, $list);
             dispatches.push(dispatch);
           }
         }

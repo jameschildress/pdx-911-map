@@ -29,6 +29,14 @@ body {
   font-family: $font;
 }
 
+h2 {
+  font-size: 15px;
+  text-transform: capitalize;
+  margin: 0 0 3px 0;
+  color: $heading-color;
+}
+
+
 
 
 
@@ -88,6 +96,17 @@ body {
 #pdx911-info {
   width: $list-width;
   
+  .pdx911-category {
+    
+    h2 {
+      display: block;
+      background: #f3f3f3;
+      margin: 0;
+      padding: 3px $list-item-padding;    
+      border-bottom: 1px solid $list-item-border;
+    }
+  }
+  
   .pdx911-list-item {
     border-bottom: 1px solid $list-item-border;
     padding: $list-item-padding;    
@@ -97,14 +116,7 @@ body {
 .pdx911-list-item {
   cursor: pointer;
   font-family: $font !important;
-  
-  h2 {
-    font-size: 15px;
-    text-transform: capitalize;
-    margin: 0 0 3px 0;
-    color: $heading-color;
-  }
-  
+    
   p {
     margin: 0 0 2px 0;
     font-size: 11px;
@@ -121,10 +133,6 @@ body {
   
   &.current {
     background: $active-item-color;
-    
-    h2 {
-      color: $active-heading-color;
-    }
     
     p, time {
       color: $active-text-color;

@@ -6,5 +6,6 @@
 //= require app/app
 //= require app/time_ago
 //= require app/markers
+//= require app/category
 //= require app/dispatch
 //= require app/initialize

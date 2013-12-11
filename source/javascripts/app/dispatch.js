@@ -8,7 +8,7 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, map, $list) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
@@ -18,8 +18,7 @@
       , self = this;
       
     // Parse properties from the XML.
-    this.uid      = uid;
-    this.category = App.Category.findOrCreate($list, $xml.find('category').attr('label'));
+    this.category = App.Category.findOrCreate($list, $xml.find('category').attr('label').trim().toLowerCase());
     this.address  = $contentDDtags.eq(2).text();
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
@@ -29,7 +28,7 @@
     this.highlighted = false;
     
     // Create and append this list item to the HTML list.
-    this.$listItem = $(this.listItemHTML()).prependTo(this.category.$dispatchesWrapper);
+    this.$listItem = $(this.listItemHTML()).prependTo(this.category.$itemsWrapper);
     this.$timeAgo  = this.$listItem.find(config.timeSelector);
     
     // Create and display the Google Map marker for this dispatch.
@@ -72,12 +71,11 @@
     
   // Return the HTML for this list item.
   p.listItemHTML = function() {
-    var html = '<div class="pdx911-list-item"><p>' +
+    return '<div class="pdx911-list-item"><p>' +
       this.address +
       '</p><time>' +
       App.timeAgoInWords(this.date) +
       '</time></div>';
-    return html;
   };
   
   
