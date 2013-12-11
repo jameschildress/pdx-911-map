@@ -382,19 +382,15 @@ table {
 body {
   background: white;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif; }
-  @media (max-width: 767px) {
-    /* line 28, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
-    body {
-      font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; } }
 
-/* line 37, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 33, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 h2 {
   font-size: 15px;
   text-transform: capitalize;
   margin: 0 0 3px 0;
   color: #0077cc; }
 
-/* line 48, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 44, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map-wrapper {
   position: fixed;
   left: 300px;
@@ -404,91 +400,91 @@ h2 {
   background: #000;
   border-left: 1px solid #888888; }
   @media (max-width: 767px) {
-    /* line 48, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 44, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-map-wrapper {
       display: none; } }
 
-/* line 62, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 58, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-map {
   height: 100%; }
-  /* line 65, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 61, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-map .pdx911-list-item {
     white-space: nowrap; }
 
-/* line 73, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 69, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-header {
   padding: 5px 10px 10px 10px;
   background: #eeeeee;
   text-align: center; }
-  /* line 78, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 74, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header h1 {
     color: #777777;
     font-size: 36px;
     margin: 0; }
-  /* line 84, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 80, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header p {
     color: #777777;
     font-size: 12px;
     margin: 0; }
-  /* line 90, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 86, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-header a {
     text-decoration: none;
     color: #777777;
     border-bottom: 1px dotted #777777; }
-    /* line 95, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 91, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-header a:hover {
       color: #0077cc;
       border-color: #0077cc; }
 
-/* line 105, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 101, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-info {
   width: 300px; }
   @media (max-width: 767px) {
-    /* line 105, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 101, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-info {
       width: auto; } }
-  /* line 114, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 110, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-info .pdx911-category h2 {
     display: block;
     background: #f3f3f3;
     margin: 0;
     padding: 3px 10px;
     border-bottom: 1px solid #cccccc; }
-  /* line 122, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 118, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-info .pdx911-category.hidden {
     display: none; }
-  /* line 127, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 123, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-info .pdx911-list-item {
     border-bottom: 1px solid #cccccc;
     padding: 10px; }
 
-/* line 133, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 129, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 .pdx911-list-item {
   cursor: pointer;
   font-family: Roboto, "Helvetica Neue", Helvetica, Arial, sans-serif !important; }
-  /* line 137, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 133, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item p {
     margin: 0 0 2px 0;
     font-size: 11px;
     font-weight: normal;
     color: #666666; }
-  /* line 144, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 140, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item time {
     margin: 0;
     font-size: 13px;
     font-weight: normal;
     color: #666666; }
-  /* line 151, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 147, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.current {
     background: #0077cc; }
-    /* line 154, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 150, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     .pdx911-list-item.current p, .pdx911-list-item.current time {
       color: white; }
-  /* line 159, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 155, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   .pdx911-list-item.hidden {
     display: none; }
 
-/* line 167, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 163, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-gradient {
   background-image: url("../images/gradient.png");
   background-size: 100% 100%;
@@ -500,31 +496,31 @@ h2 {
   background-image: linear-gradient(left top, #dc4941, #f1c355);
   overflow-y: auto; }
   @media (max-width: 767px) {
-    /* line 167, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+    /* line 163, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
     #pdx911-gradient {
       display: none; } }
-  /* line 178, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 174, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before {
     content: "newer";
     float: left;
     color: #fff; }
-  /* line 184, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 180, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:after {
     content: "older";
     float: right;
     color: #333; }
-  /* line 190, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 186, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-gradient:before, #pdx911-gradient:after {
     text-transform: uppercase;
     font-size: 11px;
     padding: 5px 10px; }
 
-/* line 201, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+/* line 197, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
 #pdx911-filters {
   padding: 10px;
   border-bottom: 1px solid #cccccc;
   background: #eeeeee; }
-  /* line 206, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
+  /* line 202, /Users/james/Projects/pdx911/source/stylesheets/app.css.scss */
   #pdx911-filters select {
     width: 100%;
     color: #666; }
