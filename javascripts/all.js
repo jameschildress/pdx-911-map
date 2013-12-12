@@ -766,8 +766,10 @@ Encoder = {
   p.formatAddress = function(address) {
     // Remove the city and state.
     var newAddress = address.replace(/\,([a-z0-9 ]{1,}\, or)/i, "");
-    // Replace 'of' with lowercase.
-    newAddress = newAddress.replace(/ of /i, " of ");
+    // Replace 'block of' with lowercase.
+    newAddress = newAddress.replace(/ block of /i, " block of ");
+    // Replace '/' with 'and'.
+    newAddress = newAddress.replace(/ \/ /, " and ");
     return newAddress;
   }
   
