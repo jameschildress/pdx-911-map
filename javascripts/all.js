@@ -538,7 +538,7 @@ Encoder = {
     
     // Parse properties from the XML.
     this.uid      = uid;
-    this.address  = $contentDDtags.eq(2).text();
+    this.address  = this.formatAddress($contentDDtags.eq(2).text());
     this.agency   = $contentDDtags.eq(3).text();
     this.date     = new Date($xml.find('updated').text());
     this.latlng   = new google.maps.LatLng(lat, lng);
@@ -757,6 +757,18 @@ Encoder = {
     if (this.highlighted) {
       App.infoWindow.setContent(this.infoWindowHTML());
     }
+  }
+  
+  
+  
+  
+  // Return a more presentable form of a street address.
+  p.formatAddress = function(address) {
+    // Remove the city and state.
+    var newAddress = address.replace(/\,([a-z0-9 ]{1,}\, or)/i, "");
+    // Replace 'of' with lowercase.
+    newAddress = newAddress.replace(/ of /i, " of ");
+    return newAddress;
   }
   
   
