@@ -11,6 +11,7 @@
     , map
     , $list
     , $ageFilter
+    , $categoryFilter
 
 
 
@@ -44,6 +45,7 @@
         map = new google.maps.Map(document.getElementById(config.mapDivID), config.mapOptions);
         // Fetch the RSS now and on an interval.
         getData();
+        
         setInterval(getData, config.refreshRate);
         // Process the queue on an interval.
         setInterval(processDispatchQueue, config.processRate);
@@ -53,12 +55,16 @@
         setInterval(filterDispatches, config.filterRate);
         // Update every timeAgoInWords on interval.
         setInterval(updateTimeAgos, config.timeUpdateRate)
+        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
-        // Get the DOM node for the select tag of the recentness filter.
+        // Get the DOM noe for the select tag of the category filter
+        $categoryFilter = $(config.categoryFilterSelector);
+        // Get the DOM node for the select tag of the age filter.
         $ageFilter = $(config.ageFilterSelector);
-        // Filter dispatches whenever the filter value changes.
+        // Filter dispatches whenever the filter values change.
         $ageFilter.change(updateFilters).change();
+        $categoryFilter.change(updateFilters).change();
       }
       
       // Add an unprocessed dispatch RSS entry to the queue.
@@ -69,7 +75,7 @@
       // Process a single entry in the queue unless the queue is empty.
     , processDispatchQueue = function() {
         if (queue.length > 0) {
-          App.Dispatch.findOrCreate( $(queue.pop()), map, $list );
+          App.Dispatch.findOrCreate( $(queue.pop()), map, $list, $categoryFilter );
         }
       }
       

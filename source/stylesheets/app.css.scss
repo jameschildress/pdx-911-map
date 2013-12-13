@@ -195,12 +195,13 @@ h2 {
 
 
 #pdx911-filters {
-  padding: $list-item-padding;
+  padding: $list-item-padding $list-item-padding 0 $list-item-padding;
   border-bottom: 1px solid $list-item-border;
   background: $header-bg;
   
   select {
     width: 100%;
     color: #666;
+    margin-bottom: $list-item-padding;
   }
 }

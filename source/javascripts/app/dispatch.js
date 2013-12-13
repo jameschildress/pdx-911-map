@@ -8,7 +8,7 @@
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, uid, map, $list, $categorySelect) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
@@ -23,7 +23,7 @@
     App.dispatches.push(this);
 
     // Add this dispatch to a new or existing category.
-    this.category = App.Category.findOrCreate($list, categoryTitle);
+    this.category = App.Category.findOrCreate($list, categoryTitle, $categorySelect);
     this.category.dispatches.push(this);
     
     // Parse properties from the XML.
@@ -78,7 +78,7 @@
   
   // If a dispatch exists with the given UID, return that title.
   // Otherwise, return a new dispatch.
-  App.Dispatch.findOrCreate = function($xml, map, $list) {
+  App.Dispatch.findOrCreate = function($xml, map, $list, $categorySelect) {
     var dispatches = App.dispatches
       , i = dispatches.length
       , uid = $xml.find('id').text();
@@ -87,7 +87,7 @@
         return dispatches[i];
       }
     }
-    return new App.Dispatch($xml, uid, map, $list);
+    return new App.Dispatch($xml, uid, map, $list, $categorySelect);
   };
   
   

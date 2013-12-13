@@ -8,7 +8,7 @@
 
 
 
-  App.Category = function($list, title) {
+  App.Category = function($list, title, $select) {
     
     // Add this category to the App.categories array.
     categories.push(this);
@@ -17,8 +17,9 @@
     this.dispatches = [];
     
     this.$listGroup = $(this.listGroupHTML());
+    this.$option = $(this.optionHTML());
     
-    this.renderIn($list);
+    this.renderIn($list, $select);
     this.$itemsWrapper = this.$listGroup.find('.' + config.listItemsGroupClass);
     
   };
@@ -28,14 +29,14 @@
   
   // If a category exists with the given title, return that category.
   // Otherwise, return a new category.
-  App.Category.findOrCreate = function($list, title) {
+  App.Category.findOrCreate = function($list, title, $select) {
     var i = categories.length;
     while (i--) {
       if (categories[i].title === title) {
         return categories[i];
       }
     }
-    return new App.Category($list, title);
+    return new App.Category($list, title, $select);
   };
   
   
@@ -52,6 +53,15 @@
       '"></div></div>';
   };
   
+  // Return the HTML for this category in the select menu.
+  p.optionHTML = function() {
+    return '<option value="' +
+      this.title +
+      '">' +
+      this.title +
+      "</option>";
+  }
+  
   // A function for sorting categories alphabetically by title.
   p.sorter = function(a, b) {
     return a.title < b.title ? -1 : 1;
@@ -59,14 +69,16 @@
 
   // Added this category's HTML to the list.
   // The HTML is added in the appropriate alphabetical location.
-  p.renderIn = function($list) {
+  p.renderIn = function($list, $select) {
     var i;
     categories.sort(this.sorter);
     i = categories.indexOf(this);
     if (i === 0) {
       this.$listGroup.prependTo($list);
+      this.$option.insertAfter($select.children().eq(0)); // Insert after the default option.
     } else {
       this.$listGroup.insertAfter(categories[i - 1].$listGroup);
+      this.$option.insertAfter(categories[i - 1].$option);
     }
   }
   
