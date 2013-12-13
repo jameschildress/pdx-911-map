@@ -28,6 +28,7 @@
     , listSelector:        '#pdx911-list'
     , listItemSelector:    '.pdx911-list-item'
     , ageFilterSelector:   '#pdx911-age-filter'
+    , categoryFilterSelector: '#pdx911-category-filter'
     , timeSelector:        'time'
     , listItemsGroupClass: 'pdx911-category-list' 
     , activeItemClass:     'current'
@@ -68,8 +69,8 @@
     // TODO: filter by category and agency
   , filters: {
       age:      0
-    , category: ""
-    , agency:   ""
+    , category: null
+    , agency:   null
     }
   
   };

@@ -285,6 +285,7 @@ Encoder = {
     , listSelector:        '#pdx911-list'
     , listItemSelector:    '.pdx911-list-item'
     , ageFilterSelector:   '#pdx911-age-filter'
+    , categoryFilterSelector: '#pdx911-category-filter'
     , timeSelector:        'time'
     , listItemsGroupClass: 'pdx911-category-list' 
     , activeItemClass:     'current'
@@ -325,8 +326,8 @@ Encoder = {
     // TODO: filter by category and agency
   , filters: {
       age:      0
-    , category: ""
-    , agency:   ""
+    , category: null
+    , agency:   null
     }
   
   };
@@ -416,7 +417,7 @@ Encoder = {
 
 
 
-  App.Category = function($list, title) {
+  App.Category = function($list, title, $select) {
     
     // Add this category to the App.categories array.
     categories.push(this);
@@ -425,8 +426,9 @@ Encoder = {
     this.dispatches = [];
     
     this.$listGroup = $(this.listGroupHTML());
+    this.$option = $(this.optionHTML());
     
-    this.renderIn($list);
+    this.renderIn($list, $select);
     this.$itemsWrapper = this.$listGroup.find('.' + config.listItemsGroupClass);
     
   };
@@ -436,14 +438,14 @@ Encoder = {
   
   // If a category exists with the given title, return that category.
   // Otherwise, return a new category.
-  App.Category.findOrCreate = function($list, title) {
+  App.Category.findOrCreate = function(title, $list, $select) {
     var i = categories.length;
     while (i--) {
       if (categories[i].title === title) {
         return categories[i];
       }
     }
-    return new App.Category($list, title);
+    return new App.Category($list, title, $select);
   };
   
   
@@ -460,6 +462,15 @@ Encoder = {
       '"></div></div>';
   };
   
+  // Return the HTML for this category in the select menu.
+  p.optionHTML = function() {
+    return '<option value="' +
+      this.title +
+      '">' +
+      this.title +
+      "</option>";
+  }
+  
   // A function for sorting categories alphabetically by title.
   p.sorter = function(a, b) {
     return a.title < b.title ? -1 : 1;
@@ -467,14 +478,16 @@ Encoder = {
 
   // Added this category's HTML to the list.
   // The HTML is added in the appropriate alphabetical location.
-  p.renderIn = function($list) {
+  p.renderIn = function($list, $select) {
     var i;
     categories.sort(this.sorter);
     i = categories.indexOf(this);
     if (i === 0) {
       this.$listGroup.prependTo($list);
+      this.$option.insertAfter($select.children().eq(0)); // Insert after the default option.
     } else {
       this.$listGroup.insertAfter(categories[i - 1].$listGroup);
+      this.$option.insertAfter(categories[i - 1].$option);
     }
   }
   
@@ -518,7 +531,7 @@ Encoder = {
   
   
   // A 911 dispatch parsed from a jQuery XML object.
-  App.Dispatch = function($xml, uid, map, $list) {
+  App.Dispatch = function($xml, uid, map, $list, $categorySelect) {
     
     // Parse the latitude and longitude.
     var geo = $xml.findNode('georss:point').text().split(" ")
@@ -533,7 +546,7 @@ Encoder = {
     App.dispatches.push(this);
 
     // Add this dispatch to a new or existing category.
-    this.category = App.Category.findOrCreate($list, categoryTitle);
+    this.category = App.Category.findOrCreate(categoryTitle, $list, $categorySelect);
     this.category.dispatches.push(this);
     
     // Parse properties from the XML.
@@ -588,7 +601,7 @@ Encoder = {
   
   // If a dispatch exists with the given UID, return that title.
   // Otherwise, return a new dispatch.
-  App.Dispatch.findOrCreate = function($xml, map, $list) {
+  App.Dispatch.findOrCreate = function($xml, map, $list, $categorySelect) {
     var dispatches = App.dispatches
       , i = dispatches.length
       , uid = $xml.find('id').text();
@@ -597,7 +610,7 @@ Encoder = {
         return dispatches[i];
       }
     }
-    return new App.Dispatch($xml, uid, map, $list);
+    return new App.Dispatch($xml, uid, map, $list, $categorySelect);
   };
   
   
@@ -737,10 +750,14 @@ Encoder = {
   // Determine whether to show or hide this dispatch, based on filter values.
   // Unhighlight any dispatches that are to be hidden.
   p.filter = function() {
-    var age = App.filters.age;
+    var age = App.filters.age
+      , category = App.filters.category;
     if (age && this.date < (new Date()) - age) {
       this.unhighlight();
       this.hide();
+    } else if (category && this.category != category) {
+      this.unhighlight();
+      this.hide();      
     } else {
       this.unhide();
     }
@@ -790,6 +807,7 @@ Encoder = {
     , map
     , $list
     , $ageFilter
+    , $categoryFilter
 
 
 
@@ -823,6 +841,7 @@ Encoder = {
         map = new google.maps.Map(document.getElementById(config.mapDivID), config.mapOptions);
         // Fetch the RSS now and on an interval.
         getData();
+        
         setInterval(getData, config.refreshRate);
         // Process the queue on an interval.
         setInterval(processDispatchQueue, config.processRate);
@@ -832,12 +851,16 @@ Encoder = {
         setInterval(filterDispatches, config.filterRate);
         // Update every timeAgoInWords on interval.
         setInterval(updateTimeAgos, config.timeUpdateRate)
+        
         // Get the DOM node where dispatch list items will be rendered.
         $list = $(config.listSelector);
-        // Get the DOM node for the select tag of the recentness filter.
+        // Get the DOM noe for the select tag of the category filter
+        $categoryFilter = $(config.categoryFilterSelector);
+        // Get the DOM node for the select tag of the age filter.
         $ageFilter = $(config.ageFilterSelector);
-        // Filter dispatches whenever the filter value changes.
+        // Filter dispatches whenever the filter values change.
         $ageFilter.change(updateFilters).change();
+        $categoryFilter.change(updateFilters).change();
       }
       
       // Add an unprocessed dispatch RSS entry to the queue.
@@ -848,7 +871,7 @@ Encoder = {
       // Process a single entry in the queue unless the queue is empty.
     , processDispatchQueue = function() {
         if (queue.length > 0) {
-          App.Dispatch.findOrCreate( $(queue.pop()), map, $list );
+          App.Dispatch.findOrCreate( $(queue.pop()), map, $list, $categoryFilter );
         }
       }
       
@@ -862,7 +885,9 @@ Encoder = {
       
       // Update the app filter values, then filter all dispatches.
     , updateFilters = function() {
+        var categoryValue = $categoryFilter.val();
         filters.age = parseInt($ageFilter.val(), 10);
+        filters.category = categoryValue ? App.Category.findOrCreate($categoryFilter.val()) : null;
         filterDispatches();
       }
       
@@ -871,7 +896,7 @@ Encoder = {
         var i = dispatches.length;
         while (i--) {
           dispatches[i].filter();
-        }        
+        }
       }
       
       // Update the timeAgo text for every dispatch.
