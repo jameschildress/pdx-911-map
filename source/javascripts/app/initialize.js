@@ -89,7 +89,9 @@
       
       // Update the app filter values, then filter all dispatches.
     , updateFilters = function() {
+        var categoryValue = $categoryFilter.val();
         filters.age = parseInt($ageFilter.val(), 10);
+        filters.category = categoryValue ? App.Category.findOrCreate($categoryFilter.val()) : null;
         filterDispatches();
       }
       
@@ -98,7 +100,7 @@
         var i = dispatches.length;
         while (i--) {
           dispatches[i].filter();
-        }        
+        }
       }
       
       // Update the timeAgo text for every dispatch.

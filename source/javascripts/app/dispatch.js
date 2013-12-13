@@ -23,7 +23,7 @@
     App.dispatches.push(this);
 
     // Add this dispatch to a new or existing category.
-    this.category = App.Category.findOrCreate($list, categoryTitle, $categorySelect);
+    this.category = App.Category.findOrCreate(categoryTitle, $list, $categorySelect);
     this.category.dispatches.push(this);
     
     // Parse properties from the XML.
@@ -227,10 +227,14 @@
   // Determine whether to show or hide this dispatch, based on filter values.
   // Unhighlight any dispatches that are to be hidden.
   p.filter = function() {
-    var age = App.filters.age;
+    var age = App.filters.age
+      , category = App.filters.category;
     if (age && this.date < (new Date()) - age) {
       this.unhighlight();
       this.hide();
+    } else if (category && this.category != category) {
+      this.unhighlight();
+      this.hide();      
     } else {
       this.unhide();
     }

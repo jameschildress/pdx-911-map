@@ -29,7 +29,7 @@
   
   // If a category exists with the given title, return that category.
   // Otherwise, return a new category.
-  App.Category.findOrCreate = function($list, title, $select) {
+  App.Category.findOrCreate = function(title, $list, $select) {
     var i = categories.length;
     while (i--) {
       if (categories[i].title === title) {

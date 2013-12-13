@@ -69,8 +69,8 @@
     // TODO: filter by category and agency
   , filters: {
       age:      0
-    , category: {}
-    , agency:   ""
+    , category: null
+    , agency:   null
     }
   
   };
