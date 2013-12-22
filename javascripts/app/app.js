@@ -15,7 +15,7 @@
   
     config: {  
       
-      dataURL:  'http://pdx911-proxy.childr.es'
+      dataURL:  'http://pdx911-proxy.childr.es/'
     , feedSize: 100
       
     , refreshRate:    60000
